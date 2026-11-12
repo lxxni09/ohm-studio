@@ -1,0 +1,355 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ohm.studio/ohm.schema.json",
+  "title": "Ohm-Studio-Projekt (.ohm)",
+  "description": "Ein komplettes Elektronikprojekt in einer YAML-Datei: Bauteile, Verkabelung, Platine, Code, Tests.",
+  "type": "object",
+  "required": [
+    "ohm",
+    "teile"
+  ],
+  "properties": {
+    "ohm": {
+      "const": 1,
+      "description": "Formatversion"
+    },
+    "projekt": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "autor": {
+          "type": "string"
+        },
+        "beschreibung": {
+          "type": "string"
+        }
+      }
+    },
+    "teile": {
+      "type": "object",
+      "description": "Bauteile: Bezeichner → Eigenschaften",
+      "propertyNames": {
+        "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "typ"
+        ],
+        "properties": {
+          "typ": {
+            "enum": [
+              "arduino-uno",
+              "arduino-uno-r4-minima",
+              "arduino-uno-r4-wifi",
+              "arduino-leonardo",
+              "arduino-mega",
+              "arduino-nano",
+              "arduino-nano-every",
+              "arduino-nano-esp32",
+              "arduino-pro-mini",
+              "arduino-micro",
+              "attiny85",
+              "esp32-devkit",
+              "esp32-s2-mini",
+              "esp32-s3-devkit",
+              "esp32-c3-supermini",
+              "esp32-c3-devkit",
+              "esp32-c5-devkit",
+              "esp32-c6-devkit",
+              "esp32-h2-devkit",
+              "esp32-p4-devkit",
+              "esp8266-nodemcu",
+              "xiao-esp32c3",
+              "xiao-esp32s3",
+              "xiao-rp2040",
+              "xiao-nrf52840",
+              "xiao-samd21",
+              "pico",
+              "pico-w",
+              "pico2",
+              "pico2-w",
+              "stm32-bluepill",
+              "stm32-nucleo-f401",
+              "nrf52840-nicenano",
+              "teensy-41",
+              "teensy-40",
+              "rpi-zero2w",
+              "rpi-3",
+              "rpi-4",
+              "rpi-5",
+              "widerstand",
+              "potentiometer",
+              "trimmer",
+              "ldr",
+              "ntc",
+              "ptc",
+              "kondensator",
+              "folienkondensator",
+              "elko",
+              "spule",
+              "quarz",
+              "sicherung",
+              "1n4148",
+              "1n4007",
+              "schottky",
+              "zener",
+              "led",
+              "rgb-led",
+              "S8050",
+              "BC547",
+              "2N2222",
+              "2N3904",
+              "BC557",
+              "S8550",
+              "2N3906",
+              "TIP120",
+              "IRLZ44N",
+              "IRF520",
+              "AO3400",
+              "2N7000",
+              "IRF9540",
+              "LM7805",
+              "AMS1117-3.3",
+              "AMS1117-5.0",
+              "HT7333",
+              "pc817",
+              "batteriehalter",
+              "batterie-aa",
+              "batterie-aaa",
+              "akku-18650",
+              "lipo",
+              "cr2032",
+              "batterie-9v",
+              "usb-netzteil",
+              "labornetzteil",
+              "solarzelle",
+              "buck",
+              "boost",
+              "taster",
+              "schalter",
+              "reedkontakt",
+              "magnet",
+              "summer",
+              "lautsprecher",
+              "relais",
+              "motor",
+              "vibrationsmotor",
+              "steckbrett",
+              "steckbrett-halb",
+              "drahtbruecke",
+              "lcd1602",
+              "lcd2004",
+              "ssd1306",
+              "sh1106",
+              "ili9341",
+              "st7789",
+              "epaper",
+              "7-segment",
+              "tm1637",
+              "max7219",
+              "dht22",
+              "dht11",
+              "bme280",
+              "ds18b20",
+              "hc-sr04",
+              "pir",
+              "mpu6050",
+              "hall",
+              "mikrofon",
+              "bodenfeuchte",
+              "lichtsensor",
+              "mq-2",
+              "gps",
+              "rfid-rc522",
+              "joystick",
+              "drehencoder",
+              "keypad-4x4",
+              "keypad-4x3",
+              "ble-beacon",
+              "nrf24l01",
+              "lora",
+              "ir-empfaenger",
+              "wlan-router",
+              "ne555",
+              "lm358",
+              "74hc595",
+              "74hc00",
+              "74hc08",
+              "74hc32",
+              "74hc86",
+              "74hc04",
+              "cd4017",
+              "24c256",
+              "l298n",
+              "drv8833",
+              "a4988",
+              "pegelwandler",
+              "servo",
+              "servo-mg996r",
+              "schrittmotor",
+              "multimeter",
+              "oszilloskop",
+              "logikanalysator",
+              "funktionsgenerator",
+              "strommesser"
+            ]
+          },
+          "pos": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "Position in mm"
+          },
+          "dreh": {
+            "enum": [
+              0,
+              90,
+              180,
+              270
+            ]
+          },
+          "nahe_an": {
+            "type": "string",
+            "description": "neben ein anderes Teil legen"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "netze": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*\\.[^\\s]+$"
+        }
+      }
+    },
+    "ansichten": {
+      "type": "object",
+      "properties": {
+        "steckbrett": {},
+        "platine": {
+          "type": "object",
+          "properties": {
+            "groesse": {
+              "type": "string",
+              "pattern": "^(auto|\\d+(\\.\\d+)?x\\d+(\\.\\d+)?mm)$"
+            },
+            "lagen": {
+              "enum": [
+                1,
+                2
+              ]
+            },
+            "farbe": {
+              "enum": [
+                "gruen",
+                "schwarz",
+                "blau",
+                "rot",
+                "weiss",
+                "lila",
+                "gelb"
+              ]
+            },
+            "oberflaeche": {
+              "enum": [
+                "gold",
+                "silber",
+                "hasl"
+              ]
+            }
+          }
+        },
+        "schaltplan": {
+          "type": "object",
+          "properties": {
+            "symbole": {
+              "enum": [
+                "IEC",
+                "ANSI"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "einstellungen": {
+      "type": "object",
+      "properties": {
+        "geschwindigkeit": {
+          "type": "number"
+        },
+        "realismus": {
+          "type": "boolean"
+        },
+        "zeitschritt": {
+          "type": "number"
+        }
+      }
+    },
+    "code": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/code"
+          }
+        }
+      ]
+    },
+    "test": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "schritt",
+          "erwartet"
+        ],
+        "properties": {
+          "schritt": {
+            "type": "string"
+          },
+          "erwartet": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "code": {
+      "type": "object",
+      "required": [
+        "datei"
+      ],
+      "properties": {
+        "ziel": {
+          "type": "string"
+        },
+        "sprache": {
+          "enum": [
+            "arduino",
+            "cpp",
+            "micropython"
+          ]
+        },
+        "datei": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

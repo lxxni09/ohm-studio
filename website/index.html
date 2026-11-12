@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ohm Studio by Nodaris – Elektronik entwerfen, simulieren, fertigen</title>
+<meta name="description" content="Ohm Studio by Nodaris: Elektronik-Simulator mit echtem Code, fotorealistischen Platinen, Analysen und Fertigungsdaten. Kostenlos für Hobbyprojekte." />
+<style>
+:root{--bg:#fbfbfd;--fg:#1d1d1f;--muted:#6e6e73;--card:#fff;--line:rgba(0,0,0,.08);--blue:#0a84ff;--grad:linear-gradient(135deg,#0a84ff,#5e5ce6 55%,#bf5af2)}
+@media (prefers-color-scheme:dark){:root{--bg:#000;--fg:#f5f5f7;--muted:#a1a1a6;--card:#161617;--line:rgba(255,255,255,.1)}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+nav{position:sticky;top:0;z-index:10;backdrop-filter:saturate(180%) blur(20px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line)}
+nav .in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:12px 20px;font-size:13px}
+nav .brand{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--fg);font-size:15px;margin-right:auto}
+nav a{color:var(--fg);opacity:.8}nav a:hover{opacity:1}
+@media (max-width:640px){nav .in{gap:14px;padding:10px 16px}nav .in>a:not(.btn):not(.brand){display:none}nav .brand{white-space:nowrap}html,body{overflow-x:hidden}}
+.btn{display:inline-block;padding:11px 22px;border-radius:980px;background:var(--blue);color:#fff;font-weight:500}
+.btn.ghost{background:transparent;color:var(--blue);border:1px solid var(--blue)}
+section{max-width:1080px;margin:0 auto;padding:90px 20px}
+.hero{text-align:center;padding-top:110px}
+.video{text-align:center}.video video{width:100%;max-width:1100px;height:auto;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.25);background:#000;margin-top:10px}
+.hero h1{font-size:clamp(44px,8vw,88px);line-height:1.03;letter-spacing:-.04em;margin:0 0 18px;font-weight:700}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:clamp(19px,2.4vw,24px);color:var(--muted);max-width:720px;margin:0 auto 34px}
+.board{margin:60px auto 0;max-width:880px;aspect-ratio:16/9;border-radius:28px;background:radial-gradient(ellipse at 50% 20%,#1d6b45,#0d3a24 70%);box-shadow:0 40px 120px rgba(10,132,255,.25),inset 0 0 0 1px rgba(255,255,255,.08);position:relative;overflow:hidden;transform:perspective(1400px) rotateX(18deg);animation:float 7s ease-in-out infinite}
+@keyframes float{50%{transform:perspective(1400px) rotateX(14deg) translateY(-8px)}}
+.board svg{position:absolute;inset:0;width:100%;height:100%}
+.trace{stroke:#c7a14a;stroke-width:5;fill:none;stroke-linecap:round;stroke-dasharray:800;stroke-dashoffset:800;animation:draw 3.2s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.led{animation:blink 1.2s infinite alternate}@keyframes blink{from{opacity:.25}to{opacity:1}}
+h2{font-size:clamp(34px,5vw,56px);letter-spacing:-.03em;line-height:1.08;margin:0 0 16px;text-align:center}
+.sub{color:var(--muted);text-align:center;max-width:680px;margin:0 auto 48px;font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px}
+.card b{display:block;font-size:19px;margin:10px 0 6px}.card p{margin:0;color:var(--muted);font-size:15px}
+.ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--grad);color:#fff;font-size:21px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:6px}
+.plan.feat{border:2px solid var(--blue)}
+.plan .p{font-size:34px;font-weight:700;letter-spacing:-.02em}.plan .p small{font-size:14px;color:var(--muted);font-weight:400}
+.plan ul{padding-left:18px;margin:8px 0 16px;color:var(--muted);font-size:14px;flex:1}
+.toggle{display:flex;justify-content:center;gap:4px;margin:-24px auto 28px;background:var(--line);padding:3px;border-radius:10px;width:max-content}
+.toggle button{border:0;background:transparent;color:var(--fg);padding:6px 14px;border-radius:8px;font:inherit;font-size:14px;cursor:pointer}
+.toggle button.on{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+details{border-bottom:1px solid var(--line);padding:18px 0}summary{cursor:pointer;font-weight:600;font-size:18px}details p{color:var(--muted)}
+.dl{text-align:center}.dl .os{color:var(--muted);font-size:14px;margin-top:10px}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+footer .in{max-width:1080px;margin:0 auto;padding:30px 20px;display:flex;gap:24px;flex-wrap:wrap}
+footer a{color:var(--muted)}
+.note{font-size:13px;color:var(--muted);text-align:center;margin-top:18px}
+</style>
+</head>
+<body>
+<nav><div class="in">
+  <a class="brand" href="#"><svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#0A84FF"/><circle cx="16" cy="16" r="4" fill="#fff"/><path d="M16 4v8M5.6 22l7-4M26.4 22l-7-4" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg> Ohm Studio</a>
+  <a href="#funktionen">Funktionen</a><a href="#preise">Preise</a><a href="#faq">FAQ</a><a href="../docs/HANDBUCH.md">Handbuch</a>
+  <a class="btn" href="#download" style="padding:6px 14px;color:#fff">Laden</a>
+</div></nav>
+
+<section class="hero">
+  <h1>Elektronik.<br /><span>Wie in echt.</span></h1>
+  <p>Schaltung bauen, echten Code ausführen, Platine fotorealistisch ansehen und fertig zur Fertigung exportieren – in einem Programm.</p>
+  <a class="btn" href="#download">⬇ Für Windows herunterladen</a> &nbsp; <a class="btn ghost" href="#video">Video ansehen</a>
+  <div class="board" aria-hidden="true">
+    <svg viewBox="0 0 880 495">
+      <path class="trace" d="M120 380 H300 V200 H520"/><path class="trace" style="animation-delay:.4s" d="M180 120 H420 V300 H700"/><path class="trace" style="animation-delay:.8s" d="M600 420 V160 H780"/>
+      <rect x="360" y="150" width="170" height="110" rx="10" fill="#151515"/><text x="445" y="212" fill="#bbb" font-size="18" text-anchor="middle" font-family="monospace">RP2040</text>
+      <circle class="led" cx="700" cy="300" r="16" fill="#ff453a"/><circle class="led" style="animation-delay:.4s" cx="780" cy="160" r="16" fill="#30d158"/><circle class="led" style="animation-delay:.8s" cx="120" cy="380" r="16" fill="#0a84ff"/>
+      <g fill="#d9b55a"><circle cx="300" cy="200" r="9"/><circle cx="520" cy="200" r="9"/><circle cx="420" cy="300" r="9"/><circle cx="600" cy="420" r="9"/></g>
+    </svg>
+  </div>
+</section>
+
+<section id="video" class="video">
+  <h2>Idee rein. Platine raus.</h2>
+  <p class="sub">Eine Idee eintippen – Ohm Studio baut Schaltung und Code, prüft sie selbst, du probierst sie aus und bekommst Platine, Gehäuse und Kosten. Aufgenommen mit dem echten Programm, nichts nachgestellt.</p>
+  <video controls muted playsinline preload="metadata" poster="media/ohm-studio-demo.png" width="1280" height="720">
+    <source src="media/ohm-studio-demo.webm" type="video/webm" />
+    Dein Browser kann das Video nicht abspielen.
+  </video>
+</section>
+
+<section id="funktionen">
+  <h2>Alles. In einem Programm.</h2>
+  <p class="sub">Vom ersten Blinklicht bis zur fertig bestückten Platine – für Schule, Hobby und Firma.</p>
+  <div class="grid">
+    <div class="card"><div class="ic">⚡</div><b>Echte Simulation</b><p>Analoger Schaltungslöser mit Dioden, Transistoren, Kondensatoren und 150+ Bauteilen. Spannungen und Ströme live sichtbar.</p></div>
+    <div class="card"><div class="ic">🧠</div><b>Echter Code</b><p>Arduino-C, echte AVR-Maschinenbefehle, MicroPython 1.24 auf dem emulierten Raspberry Pi Pico – mit Debugger.</p></div>
+    <div class="card"><div class="ic">📐</div><b>Profi-Layout</b><p>Saubere 90°-Leitungen, Autorouter mit Vias, ERC, DRC mit Profilen von JLCPCB, PCBWay, Aisler, Eurocircuits und Würth.</p></div>
+    <div class="card"><div class="ic">✨</div><b>Fotorealistisch</b><p>Platinen mit Lötstopplack, ENIG-Gold, Siebdruck und Bauteilen in 3D. Foto-Modus in 4K und 360°-Video.</p></div>
+    <div class="card"><div class="ic">🏭</div><b>Fertig zur Fertigung</b><p>Gerber X2, Pick & Place, Bestückungszeichnung, IPC-2581, ODB++, STEP und Stückliste mit Staffelpreisen.</p></div>
+    <div class="card"><div class="ic">🌡️</div><b>Analysen</b><p>Wärmebild, Monte Carlo, FMEA mit echter Fehlersimulation, Lebensdauer, Signal- und Power-Integrität, EMV.</p></div>
+    <div class="card"><div class="ic">👥</div><b>Teamarbeit</b><p>Live zusammen arbeiten, Versionen vergleichen, Reviews mit Freigabe – in der Cloud oder auf dem eigenen Server.</p></div>
+    <div class="card"><div class="ic">🎓</div><b>Lernen</b><p>„Elektronik in 30 Lektionen“ mit automatischer Bewertung. Klassenräume für Schulen kostenlos.</p></div>
+    <div class="card"><div class="ic">📦</div><b>Gehäuse</b><p>Passendes Gehäuse mit Ausschnitten und Schraubdomen – als STL für den 3D-Drucker.</p></div>
+  </div>
+</section>
+
+<section id="preise">
+  <h2>Ein Plan für jeden.</h2>
+  <p class="sub">Free ist vollwertig für Hobbyprojekte – ohne Werbung und ohne Pop-ups.</p>
+  <div class="toggle"><button class="on" data-c="m">Monatlich</button><button data-c="y">Jährlich – 2 Monate gratis</button></div>
+  <div class="plans">
+    <div class="plan"><b>Free</b><small>Einsteiger, Schüler</small><div class="p">0 €</div><ul><li>Simulation & Schnellmodus</li><li>3 private Projekte, unbegrenzt öffentlich</li><li>2-Lagen-Platinen, Gerber</li><li>10 KI-Anfragen/Monat</li></ul><a class="btn ghost" href="#download">Laden</a></div>
+    <div class="plan"><b>Plus</b><small>Bastler</small><div class="p" data-m="6 €" data-y="60 €">6 € <small>/Monat</small></div><ul><li>Echte Emulatoren</li><li>Raspberry Pi mit Linux</li><li>4 Lagen</li><li>100 KI-Anfragen</li></ul><a class="btn ghost" href="#download">Testen</a></div>
+    <div class="plan feat"><b>Pro</b><small>Selbstständige, Profis</small><div class="p" data-m="19 €" data-y="190 €">19 € <small>/Monat</small></div><ul><li>Kommerzielle Nutzung</li><li>32 Lagen, alle Analysen</li><li>ODB++, IPC-2581, Fertigungsdoku</li><li>CI, API, SDK</li></ul><a class="btn" href="#download">14 Tage gratis</a></div>
+    <div class="plan"><b>Team</b><small>Firmen-Teams</small><div class="p" data-m="49 €" data-y="490 €">49 € <small>/Nutzer/Monat</small></div><ul><li>Echtzeit-Zusammenarbeit</li><li>Freigabe-Workflow</li><li>SSO</li><li>Support in 24 h</li></ul><a class="btn ghost" href="#download">14 Tage gratis</a></div>
+    <div class="plan"><b>Enterprise</b><small>Große Firmen</small><div class="p" style="font-size:24px">auf Anfrage</div><ul><li>SSO, SCIM, Audit-Log</li><li>Self-Hosted, Offline-Lizenzen</li><li>Eigener KI-Anbieter</li><li>SLA 99,9 %</li></ul><a class="btn ghost" href="mailto:vertrieb@nodaris.example">Kontakt</a></div>
+  </div>
+  <p class="note">Schüler, Studierende und Lehrkräfte: Pro kostenlos · Open-Source-Projekte: Pro kostenlos · Start-ups: 50 % auf Team im ersten Jahr. Preise inkl. MwSt.</p>
+</section>
+
+<section id="download" class="dl">
+  <h2>Jetzt laden.</h2>
+  <p class="sub">Ohm Studio ist ein Windows-Programm (Windows 10 und 11) mit normalem Setup-Assistenten.</p>
+  <a class="btn" id="dl-main" href="https://github.com/lxxni09/ohm-studio/releases/latest">⬇ Für Windows herunterladen</a>
+  <div class="os" id="dl-other">Datei „OhmStudio-Setup-…-offline.exe“ wählen, doppelklicken, „Weiter“ klicken. Windows warnt beim ersten Start, bis das Programm digital signiert ist („Weitere Informationen → Trotzdem ausführen“). macOS und Linux: noch nicht.</div>
+</section>
+
+<section id="faq">
+  <h2>Häufige Fragen</h2>
+  <details><summary>Ist die kostenlose Version eingeschränkt?</summary><p>Free reicht vollständig für Hobbyprojekte: alle Grundbauteile, Simulation, Platinen mit zwei Lagen und Gerber-Export. Bezahlpläne kommen für kommerzielle Nutzung, echte Emulatoren und Profi-Analysen dazu. Es gibt keine Werbung und keine nervigen Hinweise.</p></details>
+  <details><summary>Werden meine Projekte hochgeladen?</summary><p>Nein. Ohm Studio arbeitet lokal. Daten verlassen deinen Rechner nur, wenn du eine Funktion ausdrücklich nutzt – z. B. Cloud-Speicher, KI mit eigenem Schlüssel oder Live-Preise nach Zustimmung.</p></details>
+  <details><summary>Kann ich die Platinen wirklich fertigen lassen?</summary><p>Ja. Das Fertigungspaket enthält Gerber X2, Bohrdaten, Pick & Place und Stückliste und lässt sich bei JLCPCB, PCBWay, Aisler, Eurocircuits oder Würth hochladen. Die DRC-Profile prüfen vorher die Regeln des Herstellers.</p></details>
+  <details><summary>Funktioniert es ohne Internet?</summary><p>Vollständig. Bezahlte Lizenzen funktionieren zusätzlich 14 Tage ohne Verbindung; Enterprise bietet Offline-Lizenzen für abgeschottete Netze.</p></details>
+  <details><summary>Kann meine Firma Ohm Studio selbst betreiben?</summary><p>Ja – mit Docker oder Kubernetes, inklusive SSO, SCIM, Audit-Log und verschlüsseltem Projektspeicher.</p></details>
+</section>
+
+<footer><div class="in">
+  <span>© 2026 Nodaris</span><a href="../rechtliches/impressum.md">Impressum</a><a href="../rechtliches/datenschutz.md">Datenschutz</a><a href="../rechtliches/agb.md">AGB</a><a href="../docs/CHANGELOG.md">Neuigkeiten</a><a href="../docs/SELF-HOSTING.md">Self-Hosting</a>
+</div></footer>
+
+<script>
+  // Auf Mac/iPhone/Android ehrlich sagen, dass es (noch) nur für Windows gibt
+  var ua = navigator.userAgent, o = document.getElementById('dl-other');
+  if (/Mac|iPhone|iPad|Android|Linux/.test(ua) && !/Windows/.test(ua)) o.insertAdjacentHTML('afterbegin', '<b>Du bist gerade nicht an einem Windows-PC</b> – lade die Datei später dort herunter. ');
+  // Preise monatlich / jährlich
+  document.querySelectorAll('.toggle button').forEach(function (b) {
+    b.onclick = function () {
+      document.querySelectorAll('.toggle button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      var y = b.dataset.c === 'y';
+      document.querySelectorAll('.plan .p[data-m]').forEach(function (p) { p.innerHTML = (y ? p.dataset.y : p.dataset.m) + ' <small>/' + (p.parentNode.querySelector('b').textContent === 'Team' ? 'Nutzer/' : '') + (y ? 'Jahr' : 'Monat') + '</small>'; });
+    };
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+ohm: 1
+projekt:
+  name: Pflanzenwächter
+  beschreibung: ESP32 misst die Bodenfeuchte, zeigt sie auf einem OLED an und blinkt rot, wenn die Pflanze Wasser braucht.
+teile:
+  U1:   { typ: esp32-devkit }
+  S1:   { typ: bodenfeuchte, feuchte: 45 }
+  DISP: { typ: ssd1306 }
+  R1:   { typ: widerstand, wert: 220 }
+  D1:   { typ: led, farbe: rot }
+netze:
+  3V3:  [U1.3V3, S1.VCC, DISP.VCC]
+  GND:  [U1.GND, S1.GND, DISP.GND, D1.K]
+  SIG:  [U1.IO34, S1.AOUT]
+  SDA:  [U1.IO21, DISP.SDA]
+  SCL:  [U1.IO22, DISP.SCL]
+  LED:  [U1.IO25, R1.1]
+  LEDA: [R1.2, D1.A]
+code:
+  ziel: U1
+  sprache: arduino
+  datei: |
+    #include <Wire.h>
+    #include <Adafruit_GFX.h>
+    #include <Adafruit_SSD1306.h>
+
+    #define PIN_SENSOR 34
+    #define PIN_LED    25
+    const int TROCKEN = 3500;   // ADC-Wert in trockener Erde
+    const int NASS    = 1500;   // ADC-Wert in nasser Erde
+
+    Adafruit_SSD1306 display(128, 64, &Wire, -1);
+
+    void setup() {
+      Serial.begin(115200);
+      pinMode(PIN_LED, OUTPUT);
+      if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+        Serial.println("Display nicht gefunden!");
+      }
+    }
+
+    void loop() {
+      int roh = analogRead(PIN_SENSOR);
+      int prozent = constrain(map(roh, TROCKEN, NASS, 0, 100), 0, 100);
+      Serial.printf("Rohwert %d -> %d %%\n", roh, prozent);
+
+      display.clearDisplay();
+      display.setTextColor(SSD1306_WHITE);
+      display.setTextSize(1);
+      display.setCursor(0, 0);
+      display.println("Pflanzenwaechter");
+      display.drawLine(0, 10, 127, 10, SSD1306_WHITE);
+      display.setTextSize(3);
+      display.setCursor(10, 20);
+      display.print(prozent);
+      display.print("%");
+      display.drawRect(0, 54, 128, 10, SSD1306_WHITE);
+      display.fillRect(2, 56, prozent * 124 / 100, 6, SSD1306_WHITE);
+      display.display();
+
+      if (prozent < 30) {
+        digitalWrite(PIN_LED, HIGH); delay(150);
+        digitalWrite(PIN_LED, LOW);  delay(350);
+      } else {
+        digitalWrite(PIN_LED, LOW);
+        delay(500);
+      }
+    }
+test:
+  - schritt: S1.feuchte = 10
+    erwartet: D1 blinkt 4x innerhalb von 2s
+  - schritt: S1.feuchte = 80
+    erwartet: D1 ist aus

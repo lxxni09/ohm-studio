@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/tmp/claude-0/-home-user-Claude/1012c9fa-869c-59f6-a9f7-55bc1ce9397b/scratchpad/kicad7/sallen_key.kicad_sch</source>
+    <date>Thu Nov 12 00:34:09 2026</date>
+    <tool>Eeschema 7.0.11+dfsg-1build4</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>sallen_key.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>100n</value>
+      <libsource lib="" part="C_1" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="sallen_key.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00005789077d</tstamps>
+    </comp>
+    <comp ref="C2">
+      <value>100n</value>
+      <fields>
+        <field name="Fieldname">Value</field>
+        <field name="Sim.Pins">1=1 2=2</field>
+      </fields>
+      <libsource lib="sallen_key_schlib" part="C" description=""/>
+      <property name="Fieldname" value="Value"/>
+      <property name="Sim.Pins" value="1=1 2=2"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="sallen_key.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00005789085b</tstamps>
+    </comp>
+    <comp ref="R1">
+      <value>1k</value>
+      <fields>
+        <field name="Fieldname">Value</field>
+        <field name="Sim.Pins">1=1 2=2</field>
+      </fields>
+      <libsource lib="" part="R_1" description=""/>
+      <property name="Fieldname" value="Value"/>
+      <property name="Sim.Pins" value="1=1 2=2"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="sallen_key.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578906ff</tstamps>
+    </comp>
+    <comp ref="R2">
+      <value>1k</value>
+      <fields>
+        <field name="Fieldname">Value</field>
+        <field name="Sim.Pins">1=1 2=2</field>
+      </fields>
+      <libsource lib="sallen_key_schlib" part="R" description=""/>
+      <property name="Fieldname" value="Value"/>
+      <property name="Sim.Pins" value="1=1 2=2"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="sallen_key.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000057890691</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>AD8051</value>
+      <fields>
+        <field name="Sim.Library">ad8051.lib</field>
+        <field name="Sim.Name">AD8051</field>
+        <field name="Sim.Pins">1=1 2=2 3=99 4=50 5=45</field>
+      </fields>
+      <libsource lib="sallen_key_schlib" part="Generic_Opamp" description=""/>
+      <property name="Sim.Library" value="ad8051.lib"/>
+      <property name="Sim.Name" value="AD8051"/>
+      <property name="Sim.Pins" value="1=1 2=2 3=99 4=50 5=45"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="sallen_key.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00005788ff9f</tstamps>
+    </comp>
+    <comp ref="V1">
+      <value>ac=1</value>
+      <fields>
+        <field name="Fieldname">Value</field>
+        <field name="Sim.Device">V</field>
+        <field name="Sim.Params">ac=1</field>
+        <field name="Sim.Pins">1=+ 2=-</field>
+        <field name="Sim.Type">DC</field>
+      </fields>
+      <libsource lib="sallen_key_schlib" part="VSOURCE" description=""/>
+      <property name="Fieldname" value="Value"/>
+      <property name="Sim.Device" value="V"/>
+      <property name="Sim.Params" value="ac=1"/>
+      <property name="Sim.Pins" value="1=+ 2=-"/>
+      <property name="Sim.Type" value="DC"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="sallen_key.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000057336052</tstamps>
+    </comp>
+    <comp ref="V2">
+      <value>10</value>
+      <fields>
+        <field name="Sim.Device">V</field>
+        <field name="Sim.Pins">1=+ 2=-</field>
+        <field name="Sim.Type">DC</field>
+      </fields>
+      <libsource lib="sallen_key_schlib" part="VSOURCE" description=""/>
+      <property name="Sim.Device" value="V"/>
+      <property name="Sim.Type" value="DC"/>
+      <property name="Sim.Pins" value="1=+ 2=-"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="sallen_key.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578900ba</tstamps>
+    </comp>
+    <comp ref="V3">
+      <value>10</value>
+      <fields>
+        <field name="Sim.Device">V</field>
+        <field name="Sim.Pins">1=+ 2=-</field>
+        <field name="Sim.Type">DC</field>
+      </fields>
+      <libsource lib="sallen_key_schlib" part="VSOURCE" description=""/>
+      <property name="Sim.Device" value="V"/>
+      <property name="Sim.Type" value="DC"/>
+      <property name="Sim.Pins" value="1=+ 2=-"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="sallen_key.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000057890232</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="" part="C_1">
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C_1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="R_1">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="sallen_key_schlib" part="C">
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="sallen_key_schlib" part="Generic_Opamp">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">Generic_Opamp</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+" type="input"/>
+        <pin num="2" name="-" type="input"/>
+        <pin num="3" name="V+" type="power_in"/>
+        <pin num="4" name="V-" type="power_in"/>
+        <pin num="5" name="" type="output"/>
+      </pins>
+    </libpart>
+    <libpart lib="sallen_key_schlib" part="R">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="sallen_key_schlib" part="VSOURCE">
+      <fields>
+        <field name="Reference">V</field>
+        <field name="Value">VSOURCE</field>
+        <field name="Fieldname">Value</field>
+        <field name="Spice_Primitive">V</field>
+        <field name="Spice_Node_Sequence">1 2</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="input"/>
+        <pin num="2" name="" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries/>
+  <nets>
+    <net code="1" name="/lowpass">
+      <node ref="C1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U1" pin="2" pinfunction="-" pintype="input"/>
+      <node ref="U1" pin="5" pintype="output"/>
+    </net>
+    <net code="2" name="GND">
+      <node ref="C2" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="V1" pin="2" pintype="input"/>
+      <node ref="V2" pin="2" pintype="input"/>
+      <node ref="V3" pin="1" pintype="input"/>
+    </net>
+    <net code="3" name="Net-(C1-Pad2)">
+      <node ref="C1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="R1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R2" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="4" name="Net-(R1-Pad2)">
+      <node ref="R1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="V1" pin="1" pintype="input"/>
+    </net>
+    <net code="5" name="Net-(U1-+)">
+      <node ref="C2" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R2" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U1" pin="1" pinfunction="+" pintype="input"/>
+    </net>
+    <net code="6" name="VDD">
+      <node ref="U1" pin="3" pinfunction="V+" pintype="power_in"/>
+      <node ref="V2" pin="1" pintype="input"/>
+    </net>
+    <net code="7" name="VSS">
+      <node ref="U1" pin="4" pinfunction="V-" pintype="power_in"/>
+      <node ref="V3" pin="2" pintype="input"/>
+    </net>
+  </nets>
+</export>

@@ -1,0 +1,139 @@
+ohm: 1
+projekt:
+  name: Reaktions-Duell
+  beschreibung: Ein Lichtpunkt rast über einen NeoPixel-Ring. Drück genau dann, wenn er oben auf dem grünen Ziel ist! Jeder Treffer macht das Spiel schneller, das OLED zeigt Punkte, Leben und Rekord, der Summer spielt Töne. Mit dem Drehregler stellst du das Starttempo ein.
+teile:
+  U1:   { typ: esp32-devkit }
+  RING: { typ: ws2812-ring }
+  DISP: { typ: ssd1306 }
+  SW1:  { typ: taster, farbe: rot }
+  POT:  { typ: potentiometer, wert: 10k }
+  BZ1:  { typ: summer, art: passiv }
+  R1:   { typ: widerstand, wert: 220 }
+netze:
+  3V3:  [U1.3V3, RING.VCC, DISP.VCC, POT.1]
+  GND:  [U1.GND, RING.GND, DISP.GND, SW1.2, POT.3, BZ1.-]
+  DATA: [U1.IO13, RING.DIN]
+  SDA:  [U1.IO21, DISP.SDA]
+  SCL:  [U1.IO22, DISP.SCL]
+  KNOPF: [U1.IO14, SW1.1]
+  TEMPO: [U1.IO34, POT.2]
+  TON:  [U1.IO25, R1.1]
+  TONB: [R1.2, BZ1.+]
+code:
+  ziel: U1
+  sprache: arduino
+  datei: |
+    // Reaktions-Duell: Lichtpunkt auf dem Ring – drück, wenn er oben (grün) ist!
+    #include <Wire.h>
+    #include <Adafruit_GFX.h>
+    #include <Adafruit_SSD1306.h>
+    #include <Adafruit_NeoPixel.h>
+
+    #define PIN_RING   13
+    #define PIN_KNOPF  14
+    #define PIN_TEMPO  34
+    #define PIN_TON    25
+    #define LEDS       12
+    #define ZIEL        0
+
+    Adafruit_SSD1306 display(128, 64, &Wire, -1);
+    Adafruit_NeoPixel ring(LEDS, PIN_RING, NEO_GRB + NEO_KHZ800);
+
+    int pos = 0;
+    int punkte = 0, rekord = 0, leben = 3;
+    unsigned long schritt = 0;
+    bool warLos = true;
+
+    void anzeige(const char* zeile) {
+      display.clearDisplay();
+      display.setTextColor(SSD1306_WHITE);
+      display.setTextSize(1);
+      display.setCursor(0, 0);
+      display.print("REAKTIONS-DUELL");
+      display.setTextSize(3);
+      display.setCursor(0, 16);
+      display.print(punkte);
+      display.setTextSize(1);
+      display.setCursor(70, 18);
+      display.print("Leben ");
+      for (int i = 0; i < leben; i++) display.print("*");
+      display.setCursor(70, 32);
+      display.print("Rekord ");
+      display.print(rekord);
+      display.setCursor(0, 54);
+      display.print(zeile);
+      display.display();
+    }
+
+    void blitz(uint32_t farbe) {
+      for (int i = 0; i < LEDS; i++) ring.setPixelColor(i, farbe);
+      ring.show();
+      delay(250);
+    }
+
+    void regenbogen() {
+      for (int r = 0; r < 2; r++)
+        for (int s = 0; s < LEDS; s++) {
+          for (int i = 0; i < LEDS; i++) ring.setPixelColor(i, ring.ColorHSV(((i + s) * 65536L) / LEDS));
+          ring.show();
+          delay(25);
+        }
+    }
+
+    unsigned long tempo() {
+      // Regler bestimmt das Grundtempo, jeder Treffer macht es schneller
+      int grund = map(analogRead(PIN_TEMPO), 0, 4095, 220, 70);
+      return max(25, grund - punkte * 8);
+    }
+
+    void setup() {
+      Serial.begin(115200);
+      pinMode(PIN_KNOPF, INPUT_PULLUP);
+      ring.begin();
+      ring.setBrightness(80);
+      display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+      anzeige("Druecke bei GRUEN!");
+      Serial.println("Reaktions-Duell bereit");
+      tone(PIN_TON, 880, 120);
+    }
+
+    void loop() {
+      // Lichtpunkt weiterbewegen
+      if (millis() - schritt > tempo()) {
+        schritt = millis();
+        pos = (pos + 1) % LEDS;
+        ring.clear();
+        ring.setPixelColor(ZIEL, ring.Color(0, 120, 0));              // Ziel
+        ring.setPixelColor(pos, pos == ZIEL ? ring.Color(255, 255, 255) : ring.Color(255, 40, 0));
+        ring.show();
+      }
+
+      // Knopf gedrückt (nur die Flanke zählt)
+      bool los = digitalRead(PIN_KNOPF) == HIGH;
+      if (!los && warLos) {
+        if (pos == ZIEL) {
+          punkte++;
+          if (punkte > rekord) rekord = punkte;
+          tone(PIN_TON, 1320, 80);
+          Serial.print("Treffer! Punkte: ");
+          Serial.println(punkte);
+          regenbogen();
+          anzeige(punkte % 5 == 0 ? "Wahnsinn! Schneller!" : "Treffer!");
+        } else {
+          leben--;
+          tone(PIN_TON, 180, 300);
+          Serial.println("Daneben!");
+          blitz(ring.Color(255, 0, 0));
+          if (leben <= 0) {
+            anzeige("GAME OVER - neu...");
+            tone(PIN_TON, 120, 700);
+            delay(1500);
+            punkte = 0;
+            leben = 3;
+          }
+          anzeige("Daneben!");
+        }
+      }
+      warLos = los;
+    }

@@ -1,0 +1,1022 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/tmp/claude-0/-home-user-Claude/1012c9fa-869c-59f6-a9f7-55bc1ce9397b/scratchpad/kicad7/pic_programmer.kicad_sch</source>
+    <date>Thu Nov 12 00:34:09 2026</date>
+    <tool>Eeschema 7.0.11+dfsg-1build4</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>JDM - COM84 PIC Programmer with 13V DC/DC converter</title>
+        <company>KiCad</company>
+        <rev>2</rev>
+        <date>05 jan 2014</date>
+        <source>pic_programmer.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/pic_sockets/" tstamps="/00000000-0000-0000-0000-00004804a5e2/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>pic_sockets.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>100µF</value>
+      <footprint>Capacitor_THT:CP_Axial_L18.0mm_D6.5mm_P25.00mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="CP" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a5056</tstamps>
+    </comp>
+    <comp ref="C2">
+      <value>220uF</value>
+      <footprint>Capacitor_THT:CP_Axial_L18.0mm_D6.5mm_P25.00mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="CP" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a501d</tstamps>
+    </comp>
+    <comp ref="C3">
+      <value>22uF/25V</value>
+      <footprint>Capacitor_THT:C_Axial_L12.0mm_D6.5mm_P20.00mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="CP" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a584c</tstamps>
+    </comp>
+    <comp ref="C4">
+      <value>0</value>
+      <footprint>Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm</footprint>
+      <libsource lib="pic_programmer_schlib" part="C" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a5f61</tstamps>
+    </comp>
+    <comp ref="C5">
+      <value>10nF</value>
+      <footprint>Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm</footprint>
+      <libsource lib="pic_programmer_schlib" part="C" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a58b1</tstamps>
+    </comp>
+    <comp ref="C9">
+      <value>220nF</value>
+      <footprint>Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm</footprint>
+      <libsource lib="pic_programmer_schlib" part="C" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000464ad280</tstamps>
+    </comp>
+    <comp ref="D1">
+      <value>1N4004</value>
+      <footprint>Diode_THT:D_DO-35_SOD27_P12.70mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="D" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a500b</tstamps>
+    </comp>
+    <comp ref="D2">
+      <value>BAT43</value>
+      <footprint>Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="D_Schottky" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d1b</tstamps>
+    </comp>
+    <comp ref="D3">
+      <value>BAT43</value>
+      <footprint>Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="D_Schottky" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d25</tstamps>
+    </comp>
+    <comp ref="D4">
+      <value>BAT43</value>
+      <footprint>Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="D_Schottky" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d5c</tstamps>
+    </comp>
+    <comp ref="D5">
+      <value>BAT43</value>
+      <footprint>Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="D_Schottky" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d5d</tstamps>
+    </comp>
+    <comp ref="D6">
+      <value>BAT43</value>
+      <footprint>Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="D_Schottky" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d64</tstamps>
+    </comp>
+    <comp ref="D7">
+      <value>BAT43</value>
+      <footprint>Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="D_Schottky" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d65</tstamps>
+    </comp>
+    <comp ref="D8">
+      <value>RED-LED</value>
+      <footprint>LED_THT:LED_D5.0mm</footprint>
+      <fields>
+        <field name="Champ4">Low Current Led</field>
+      </fields>
+      <libsource lib="pic_programmer_schlib" part="LED" description=""/>
+      <property name="Champ4" value="Low Current Led"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4f5d</tstamps>
+    </comp>
+    <comp ref="D9">
+      <value>GREEN-LED</value>
+      <footprint>LED_THT:LED_D5.0mm</footprint>
+      <fields>
+        <field name="Champ4">GREEN LED</field>
+      </fields>
+      <libsource lib="pic_programmer_schlib" part="LED" description=""/>
+      <property name="Champ4" value="GREEN LED"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a5084</tstamps>
+    </comp>
+    <comp ref="D10">
+      <value>SCHOTTKY</value>
+      <footprint>Diode_THT:D_DO-35_SOD27_P12.70mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="D_Schottky" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a6026</tstamps>
+    </comp>
+    <comp ref="D11">
+      <value>BAT43</value>
+      <footprint>Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="D_Schottky" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00004639ba28</tstamps>
+    </comp>
+    <comp ref="D12">
+      <value>YELLOW-LED</value>
+      <footprint>LED_THT:LED_D5.0mm</footprint>
+      <libsource lib="pic_programmer_schlib" part="LED" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00004639b9ea</tstamps>
+    </comp>
+    <comp ref="J1">
+      <value>DB9-FEMAL</value>
+      <footprint>Connector_Dsub:DSUB-9_Female_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm</footprint>
+      <libsource lib="pic_programmer_schlib" part="DB9" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4c93</tstamps>
+    </comp>
+    <comp ref="JP1">
+      <value>JUMPER</value>
+      <footprint>Jumper:SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm</footprint>
+      <libsource lib="pic_programmer_schlib" part="JUMPER" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00004639baf8</tstamps>
+    </comp>
+    <comp ref="L1">
+      <value>22uH</value>
+      <footprint>Inductor_THT:L_Radial_D7.8mm_P5.00mm_Fastron_07HCP</footprint>
+      <libsource lib="pic_programmer_schlib" part="INDUCTOR" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a57be</tstamps>
+    </comp>
+    <comp ref="P1">
+      <value>CONN_2</value>
+      <footprint>TerminalBlock_Altech:Altech_AK300_1x02_P5.00mm_45-Degree</footprint>
+      <libsource lib="pic_programmer_schlib" part="CONN_2" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4fe7</tstamps>
+    </comp>
+    <comp ref="P101">
+      <value>CONN_1</value>
+      <footprint>MountingHole:MountingHole_4.3mm_M4</footprint>
+      <libsource lib="pic_programmer_schlib" part="MOUNTING_HOLE" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000054020bea</tstamps>
+    </comp>
+    <comp ref="P102">
+      <value>CONN_1</value>
+      <footprint>MountingHole:MountingHole_4.3mm_M4</footprint>
+      <libsource lib="pic_programmer_schlib" part="MOUNTING_HOLE" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000054020da9</tstamps>
+    </comp>
+    <comp ref="P103">
+      <value>CONN_1</value>
+      <footprint>MountingHole:MountingHole_4.3mm_M4</footprint>
+      <libsource lib="pic_programmer_schlib" part="MOUNTING_HOLE" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000054020dc2</tstamps>
+    </comp>
+    <comp ref="P104">
+      <value>CONN_1</value>
+      <footprint>MountingHole:MountingHole_4.3mm_M4</footprint>
+      <libsource lib="pic_programmer_schlib" part="MOUNTING_HOLE" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000054020de3</tstamps>
+    </comp>
+    <comp ref="P105">
+      <value>CONN_1</value>
+      <footprint>MountingHole:MountingHole_4.3mm_M4</footprint>
+      <libsource lib="pic_programmer_schlib" part="MOUNTING_HOLE" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000054020e5d</tstamps>
+    </comp>
+    <comp ref="P106">
+      <value>CONN_1</value>
+      <footprint>MountingHole:MountingHole_4.3mm_M4</footprint>
+      <libsource lib="pic_programmer_schlib" part="MOUNTING_HOLE" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000054020e76</tstamps>
+    </comp>
+    <comp ref="Q1">
+      <value>BC237</value>
+      <footprint>Package_TO_SOT_THT:TO-92</footprint>
+      <libsource lib="pic_programmer_schlib" part="BC237" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4eb9</tstamps>
+    </comp>
+    <comp ref="Q2">
+      <value>BC307</value>
+      <footprint>Package_TO_SOT_THT:TO-92</footprint>
+      <libsource lib="pic_programmer_schlib" part="BC307" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4f30</tstamps>
+    </comp>
+    <comp ref="Q3">
+      <value>BC307</value>
+      <footprint>Package_TO_SOT_THT:TO-92</footprint>
+      <libsource lib="pic_programmer_schlib" part="BC307" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00004639b996</tstamps>
+    </comp>
+    <comp ref="R1">
+      <value>10K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4cf4</tstamps>
+    </comp>
+    <comp ref="R2">
+      <value>10K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4cfb</tstamps>
+    </comp>
+    <comp ref="R3">
+      <value>10K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d5a</tstamps>
+    </comp>
+    <comp ref="R4">
+      <value>10K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d5b</tstamps>
+    </comp>
+    <comp ref="R5">
+      <value>10K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d62</tstamps>
+    </comp>
+    <comp ref="R6">
+      <value>10K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d63</tstamps>
+    </comp>
+    <comp ref="R7">
+      <value>10K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4f2a</tstamps>
+    </comp>
+    <comp ref="R8">
+      <value>1K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d92</tstamps>
+    </comp>
+    <comp ref="R9">
+      <value>2.2K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4f52</tstamps>
+    </comp>
+    <comp ref="R10">
+      <value>5,1K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a5f83</tstamps>
+    </comp>
+    <comp ref="R11">
+      <value>22K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4f23</tstamps>
+    </comp>
+    <comp ref="R12">
+      <value>470</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d85</tstamps>
+    </comp>
+    <comp ref="R13">
+      <value>470</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d8d</tstamps>
+    </comp>
+    <comp ref="R14">
+      <value>470</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a5083</tstamps>
+    </comp>
+    <comp ref="R15">
+      <value>6.2K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a58d7</tstamps>
+    </comp>
+    <comp ref="R16">
+      <value>62K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a58dc</tstamps>
+    </comp>
+    <comp ref="R17">
+      <value>22K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a50bf</tstamps>
+    </comp>
+    <comp ref="R18">
+      <value>220</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000044369638</tstamps>
+    </comp>
+    <comp ref="R19">
+      <value>2.2K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00004639b9b0</tstamps>
+    </comp>
+    <comp ref="R20">
+      <value>2.2K</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00004639b9b3</tstamps>
+    </comp>
+    <comp ref="R21">
+      <value>470</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="pic_programmer_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00004639b9e9</tstamps>
+    </comp>
+    <comp ref="RV1">
+      <value>1K</value>
+      <footprint>footprints:RV2X4</footprint>
+      <libsource lib="pic_programmer_schlib" part="POT" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000443d0101</tstamps>
+    </comp>
+    <comp ref="U2">
+      <value>74HC125</value>
+      <footprint>Package_DIP:DIP-14_W7.62mm_LongPads</footprint>
+      <libsource lib="pic_programmer_schlib" part="74LS125" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a4d59 00000000-0000-0000-0000-0000442a4d6b 00000000-0000-0000-0000-0000442a4d61 00000000-0000-0000-0000-0000442a4cc8</tstamps>
+    </comp>
+    <comp ref="U3">
+      <value>7805</value>
+      <footprint>Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown</footprint>
+      <datasheet>www.st.com/resource/en/datasheet/l78.pdf</datasheet>
+      <libsource lib="pic_programmer_schlib" part="7805" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00005a238df8</tstamps>
+    </comp>
+    <comp ref="U4">
+      <value>LT1373</value>
+      <footprint>Package_DIP:DIP-8_W7.62mm_LongPads</footprint>
+      <libsource lib="pic_programmer_schlib" part="LT1373" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="pic_programmer.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000442a5e20</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="pic_programmer_schlib" part="74LS125">
+      <footprints>
+        <fp>DIP?14*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">74LS125</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="input"/>
+        <pin num="2" name="" type="input"/>
+        <pin num="3" name="" type="tri_state"/>
+        <pin num="4" name="" type="input"/>
+        <pin num="5" name="" type="input"/>
+        <pin num="6" name="" type="tri_state"/>
+        <pin num="7" name="GND" type="power_in"/>
+        <pin num="8" name="" type="tri_state"/>
+        <pin num="9" name="" type="input"/>
+        <pin num="10" name="" type="input"/>
+        <pin num="11" name="" type="tri_state"/>
+        <pin num="12" name="" type="input"/>
+        <pin num="13" name="" type="input"/>
+        <pin num="14" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="7805">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">7805</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VI" type="input"/>
+        <pin num="2" name="GND" type="input"/>
+        <pin num="3" name="VO" type="power_out"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="BC237">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">BC237</field>
+        <field name="Footprint">Package_TO_SOT_THT:TO-92</field>
+      </fields>
+      <pins>
+        <pin num="1" name="C" type="passive"/>
+        <pin num="2" name="B" type="input"/>
+        <pin num="3" name="E" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="BC307">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">BC307</field>
+        <field name="Footprint">Package_TO_SOT_THT:TO-92</field>
+      </fields>
+      <pins>
+        <pin num="1" name="C" type="passive"/>
+        <pin num="2" name="B" type="input"/>
+        <pin num="3" name="E" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="C">
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="CONN_2">
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_2</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="PM" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="CP">
+      <footprints>
+        <fp>CP*</fp>
+        <fp>Elko*</fp>
+        <fp>TantalC*</fp>
+        <fp>C*elec</fp>
+        <fp>c_elec*</fp>
+        <fp>SMD*_Pol</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">CP</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="D">
+      <footprints>
+        <fp>Diode_*</fp>
+        <fp>D-Pak_TO252AA</fp>
+        <fp>*SingleDiode</fp>
+        <fp>*_Diode_*</fp>
+        <fp>*SingleDiode*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="DB9">
+      <footprints>
+        <fp>DB9*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">DB9</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+        <pin num="5" name="5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
+        <pin num="9" name="P9" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="D_Schottky">
+      <footprints>
+        <fp>D-Pak_TO252AA</fp>
+        <fp>Diode_*</fp>
+        <fp>*SingleDiode</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>*_Diode_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_Schottky</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="INDUCTOR">
+      <fields>
+        <field name="Reference">L</field>
+        <field name="Value">INDUCTOR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="JUMPER">
+      <fields>
+        <field name="Reference">JP</field>
+        <field name="Value">JUMPER</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="LED">
+      <footprints>
+        <fp>LED-3MM</fp>
+        <fp>LED-5MM</fp>
+        <fp>LED-10MM</fp>
+        <fp>LED-0603</fp>
+        <fp>LED-0805</fp>
+        <fp>LED-1206</fp>
+        <fp>LEDV</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="LT1373">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LT1373</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Vc" type="input"/>
+        <pin num="2" name="FB+" type="input"/>
+        <pin num="3" name="FB-" type="passive"/>
+        <pin num="4" name="S/S" type="passive"/>
+        <pin num="5" name="Vin" type="power_in"/>
+        <pin num="6" name="GND_S" type="input"/>
+        <pin num="7" name="GND" type="input"/>
+        <pin num="8" name="Vsw" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="MOUNTING_HOLE">
+      <footprints>
+        <fp>*Hole*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">MOUNTING_HOLE</field>
+      </fields>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="POT">
+      <fields>
+        <field name="Reference">RV</field>
+        <field name="Value">POT</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pic_programmer_schlib" part="R">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries/>
+  <nets>
+    <net code="1" name="/CLOCK-RB6">
+      <node ref="R13" pin="2" pintype="passive"/>
+    </net>
+    <net code="2" name="/DATA-RB7">
+      <node ref="R12" pin="2" pintype="passive"/>
+      <node ref="U2" pin="12" pintype="input"/>
+    </net>
+    <net code="3" name="/PC-CLOCK-OUT">
+      <node ref="J1" pin="7" pinfunction="P7" pintype="passive"/>
+      <node ref="R5" pin="1" pintype="passive"/>
+      <node ref="R6" pin="1" pintype="passive"/>
+    </net>
+    <net code="4" name="/PC-DATA-IN">
+      <node ref="J1" pin="8" pinfunction="P8" pintype="passive"/>
+      <node ref="U2" pin="11" pintype="tri_state"/>
+    </net>
+    <net code="5" name="/PC-DATA-OUT">
+      <node ref="J1" pin="4" pinfunction="4" pintype="passive"/>
+      <node ref="R3" pin="1" pintype="passive"/>
+      <node ref="R4" pin="1" pintype="passive"/>
+    </net>
+    <net code="6" name="/VCC_PIC">
+      <node ref="JP1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="Q3" pin="1" pinfunction="C" pintype="passive"/>
+      <node ref="R21" pin="2" pintype="passive"/>
+    </net>
+    <net code="7" name="/VPP_ON">
+      <node ref="J1" pin="3" pinfunction="3" pintype="passive"/>
+      <node ref="R1" pin="1" pintype="passive"/>
+      <node ref="R2" pin="1" pintype="passive"/>
+    </net>
+    <net code="8" name="/VPP{slash}MCLR">
+      <node ref="R18" pin="2" pintype="passive"/>
+    </net>
+    <net code="9" name="GND">
+      <node ref="C1" pin="2" pintype="passive"/>
+      <node ref="C2" pin="2" pintype="passive"/>
+      <node ref="C3" pin="2" pintype="passive"/>
+      <node ref="C4" pin="2" pintype="passive"/>
+      <node ref="C5" pin="2" pintype="passive"/>
+      <node ref="D12" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="D3" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D5" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D7" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D8" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="D9" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="J1" pin="5" pinfunction="5" pintype="passive"/>
+      <node ref="P1" pin="1" pinfunction="P1" pintype="passive"/>
+      <node ref="Q1" pin="3" pinfunction="E" pintype="passive"/>
+      <node ref="R15" pin="2" pintype="passive"/>
+      <node ref="R17" pin="2" pintype="passive"/>
+      <node ref="R2" pin="2" pintype="passive"/>
+      <node ref="R4" pin="2" pintype="passive"/>
+      <node ref="R6" pin="2" pintype="passive"/>
+      <node ref="U2" pin="1" pintype="input"/>
+      <node ref="U2" pin="10" pintype="input"/>
+      <node ref="U2" pin="13" pintype="input"/>
+      <node ref="U2" pin="4" pintype="input"/>
+      <node ref="U2" pin="7" pinfunction="GND" pintype="power_in"/>
+      <node ref="U3" pin="2" pinfunction="GND" pintype="input"/>
+      <node ref="U4" pin="6" pinfunction="GND_S" pintype="input"/>
+      <node ref="U4" pin="7" pinfunction="GND" pintype="input"/>
+    </net>
+    <net code="10" name="Net-(C5-Pad1)">
+      <node ref="C5" pin="1" pintype="passive"/>
+      <node ref="R10" pin="2" pintype="passive"/>
+    </net>
+    <net code="11" name="Net-(D1-A)">
+      <node ref="D1" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="P1" pin="2" pinfunction="PM" pintype="passive"/>
+    </net>
+    <net code="12" name="Net-(D1-K)">
+      <node ref="C2" pin="1" pintype="passive"/>
+      <node ref="D1" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="U3" pin="1" pinfunction="VI" pintype="input"/>
+    </net>
+    <net code="13" name="Net-(D2-A)">
+      <node ref="D2" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D3" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R1" pin="2" pintype="passive"/>
+      <node ref="U2" pin="2" pintype="input"/>
+    </net>
+    <net code="14" name="Net-(D4-A)">
+      <node ref="D4" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D5" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R3" pin="2" pintype="passive"/>
+      <node ref="U2" pin="5" pintype="input"/>
+    </net>
+    <net code="15" name="Net-(D6-A)">
+      <node ref="D6" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D7" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R5" pin="2" pintype="passive"/>
+      <node ref="U2" pin="9" pintype="input"/>
+    </net>
+    <net code="16" name="Net-(D8-A)">
+      <node ref="D8" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="R9" pin="2" pintype="passive"/>
+    </net>
+    <net code="17" name="Net-(D9-A)">
+      <node ref="D9" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="R14" pin="2" pintype="passive"/>
+    </net>
+    <net code="18" name="Net-(D10-A)">
+      <node ref="D10" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="L1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U4" pin="8" pinfunction="Vsw" pintype="input"/>
+    </net>
+    <net code="19" name="Net-(D11-A)">
+      <node ref="D11" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="R19" pin="1" pintype="passive"/>
+    </net>
+    <net code="20" name="Net-(D11-K)">
+      <node ref="D11" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="Q1" pin="1" pinfunction="C" pintype="passive"/>
+      <node ref="R11" pin="1" pintype="passive"/>
+    </net>
+    <net code="21" name="Net-(D12-A)">
+      <node ref="D12" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="R21" pin="1" pintype="passive"/>
+    </net>
+    <net code="22" name="Net-(Q1-B)">
+      <node ref="Q1" pin="2" pinfunction="B" pintype="input"/>
+      <node ref="R8" pin="2" pintype="passive"/>
+    </net>
+    <net code="23" name="Net-(Q2-B)">
+      <node ref="C9" pin="2" pintype="passive"/>
+      <node ref="Q2" pin="2" pinfunction="B" pintype="input"/>
+      <node ref="R11" pin="2" pintype="passive"/>
+      <node ref="R7" pin="2" pintype="passive"/>
+    </net>
+    <net code="24" name="Net-(Q2-C)">
+      <node ref="Q2" pin="1" pinfunction="C" pintype="passive"/>
+      <node ref="R17" pin="1" pintype="passive"/>
+      <node ref="R18" pin="1" pintype="passive"/>
+      <node ref="R9" pin="1" pintype="passive"/>
+    </net>
+    <net code="25" name="Net-(Q3-B)">
+      <node ref="Q3" pin="2" pinfunction="B" pintype="input"/>
+      <node ref="R19" pin="2" pintype="passive"/>
+      <node ref="R20" pin="2" pintype="passive"/>
+    </net>
+    <net code="26" name="Net-(R8-Pad1)">
+      <node ref="R8" pin="1" pintype="passive"/>
+      <node ref="U2" pin="3" pintype="tri_state"/>
+    </net>
+    <net code="27" name="Net-(R12-Pad1)">
+      <node ref="R12" pin="1" pintype="passive"/>
+      <node ref="U2" pin="6" pintype="tri_state"/>
+    </net>
+    <net code="28" name="Net-(R13-Pad1)">
+      <node ref="R13" pin="1" pintype="passive"/>
+      <node ref="U2" pin="8" pintype="tri_state"/>
+    </net>
+    <net code="29" name="Net-(R15-Pad1)">
+      <node ref="R15" pin="1" pintype="passive"/>
+      <node ref="RV1" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="30" name="Net-(R16-Pad1)">
+      <node ref="R16" pin="1" pintype="passive"/>
+      <node ref="RV1" pin="3" pinfunction="3" pintype="passive"/>
+    </net>
+    <net code="31" name="Net-(U4-FB+)">
+      <node ref="RV1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U4" pin="2" pinfunction="FB+" pintype="input"/>
+    </net>
+    <net code="32" name="Net-(U4-Vc)">
+      <node ref="C4" pin="1" pintype="passive"/>
+      <node ref="R10" pin="1" pintype="passive"/>
+      <node ref="U4" pin="1" pinfunction="Vc" pintype="input"/>
+    </net>
+    <net code="33" name="VCC">
+      <node ref="C1" pin="1" pintype="passive"/>
+      <node ref="D2" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="D4" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="D6" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="JP1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="L1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="Q3" pin="3" pinfunction="E" pintype="passive"/>
+      <node ref="R14" pin="1" pintype="passive"/>
+      <node ref="R20" pin="1" pintype="passive"/>
+      <node ref="U2" pin="14" pinfunction="VCC" pintype="power_in"/>
+      <node ref="U3" pin="3" pinfunction="VO" pintype="power_out"/>
+      <node ref="U4" pin="5" pinfunction="Vin" pintype="power_in"/>
+    </net>
+    <net code="34" name="VPP">
+      <node ref="C3" pin="1" pintype="passive"/>
+      <node ref="C9" pin="1" pintype="passive"/>
+      <node ref="D10" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="Q2" pin="3" pinfunction="E" pintype="passive"/>
+      <node ref="R16" pin="2" pintype="passive"/>
+      <node ref="R7" pin="1" pintype="passive"/>
+    </net>
+    <net code="35" name="unconnected-(J1-P6-Pad6)">
+      <node ref="J1" pin="6" pinfunction="P6" pintype="passive+no_connect"/>
+    </net>
+    <net code="36" name="unconnected-(J1-P9-Pad9)">
+      <node ref="J1" pin="9" pinfunction="P9" pintype="passive+no_connect"/>
+    </net>
+    <net code="37" name="unconnected-(J1-Pad1)">
+      <node ref="J1" pin="1" pinfunction="1" pintype="passive+no_connect"/>
+    </net>
+    <net code="38" name="unconnected-(J1-Pad2)">
+      <node ref="J1" pin="2" pinfunction="2" pintype="passive+no_connect"/>
+    </net>
+    <net code="39" name="unconnected-(U4-FB--Pad3)">
+      <node ref="U4" pin="3" pinfunction="FB-" pintype="passive+no_connect"/>
+    </net>
+    <net code="40" name="unconnected-(U4-S{slash}S-Pad4)">
+      <node ref="U4" pin="4" pinfunction="S/S" pintype="passive+no_connect"/>
+    </net>
+  </nets>
+</export>

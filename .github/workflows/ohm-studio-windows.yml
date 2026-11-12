@@ -1,0 +1,80 @@
+name: Ohm Studio – Windows-Setup bauen und veröffentlichen
+
+# Baut bei jeder Änderung auf einem echten Windows-Rechner:
+#   - Setup-Assistent offline (alles enthalten)
+#   - Setup-Assistent web (klein, lädt den Rest)
+#   - MSI-Paket für Firmen-IT (Gruppenrichtlinien / Intune)
+#   - portable Version (ohne Installation)
+# und hängt alles an das GitHub-Release „v<Version>“ (wird bei jedem Lauf aktualisiert).
+
+on:
+  push:
+    # Doku-Änderungen (*.md) bauen kein neues Setup – sonst bricht jede Textänderung den laufenden Build ab
+    paths-ignore: ['**/*.md']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ohm-studio-windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Tests
+        run: npx vitest run
+      - name: Programm und Installer bauen
+        run: npm run dist:win:all
+        env:
+          # Code-Signatur: sobald ein Zertifikat gekauft ist, CSC_LINK (PFX als Base64) und CSC_KEY_PASSWORD als Secrets hinterlegen
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Installer prüfen
+        run: |
+          ls -la release release/nsis-web
+          test -f release/OhmStudio-Setup-*-offline.exe
+          test -f release/nsis-web/OhmStudio-Setup-*-web.exe
+          ls release/*.msi
+      - name: Installer als Artefakt sichern
+        uses: actions/upload-artifact@v4
+        with:
+          name: OhmStudio-Windows
+          path: |
+            release/*.exe
+            release/*.msi
+            release/latest.yml
+            release/nsis-web/*
+      - name: GitHub-Release aktualisieren
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VER=$(node -p "require('./package.json').version")
+          TAG="v$VER"
+          NOTES="Ohm Studio $VER by Nodaris – Windows-Setup (Build ${{ github.run_number }}, $(date -u +%Y-%m-%d)).
+
+          Welche Datei brauche ich?
+          - OhmStudio-Setup-$VER-offline.exe – empfohlen: Setup-Assistent mit allem drin
+          - OhmStudio-Setup-$VER-web.exe – kleiner Setup-Assistent, lädt den Rest aus dem Internet
+          - OhmStudio-$VER-x64.msi – für Firmen-IT (stille Verteilung)
+          - OhmStudio-$VER-portable.exe – ohne Installation, z. B. vom USB-Stick"
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "Ohm Studio $VER" --notes "$NOTES" --target "${{ github.sha }}" --latest
+          gh release edit "$TAG" --notes "$NOTES"
+          gh release upload "$TAG" --clobber \
+            release/OhmStudio-Setup-*-offline.exe release/OhmStudio-Setup-*-offline.exe.blockmap \
+            release/*.msi release/OhmStudio-*-portable.exe release/latest.yml \
+            release/nsis-web/OhmStudio-Setup-*-web.exe release/nsis-web/*.7z

@@ -1,0 +1,162 @@
+ohm: 1
+projekt:
+  name: Schlüssel-Türwächter
+  autor: Ohm Studio Beispiel
+  beschreibung: Piept, wenn die Tür aufgeht und der Schlüssel nicht in der Nähe ist.
+
+teile:
+  U1:   { typ: esp32-c3-supermini }
+  SW1:  { typ: reedkontakt, normal: offen }
+  MAG1: { typ: magnet, nahe_an: SW1 }          # in der Simulation verschiebbar
+  SW2:  { typ: taster, groesse: 6x6x6, label: LERNEN }
+  BZ1:  { typ: summer, art: aktiv, spannung: 5V }
+  Q1:   { typ: S8050 }
+  R1:   { typ: widerstand, wert: 1M }
+  R2:   { typ: widerstand, wert: 1k }
+  R3:   { typ: widerstand, wert: 330 }
+  D1:   { typ: led, farbe: gruen, groesse: 3mm }
+  C1:   { typ: elko, wert: 100uF, spannung: 16V }
+  BAT1: { typ: batteriehalter, zellen: 3xAAA }
+  TAG1: { typ: ble-beacon, chip: nRF52810, mac: "aa:bb:cc:dd:ee:ff", entfernung: 0.5m }
+
+netze:
+  VBAT: [BAT1.+, C1.+, U1.5V, BZ1.+]
+  GND:  [BAT1.-, C1.-, U1.GND, SW1.2, Q1.E, SW2.2, D1.K]
+  3V3:  [U1.3V3, R1.1]
+  TUER: [U1.IO3, R1.2, SW1.1]
+  BTN:  [U1.IO10, SW2.1]
+  BUZ:  [U1.IO5, R2.1]
+  BASE: [R2.2, Q1.B]
+  BUZ-: [Q1.C, BZ1.-]
+  LED:  [U1.IO6, R3.1]
+  LEDA: [R3.2, D1.A]
+
+ansichten:
+  steckbrett: auto
+  platine:
+    groesse: 64x40mm
+    lagen: 2
+    farbe: gruen
+
+code:
+  ziel: U1
+  sprache: arduino
+  datei: |
+    // Schlüssel-Türwächter für ESP32-C3 SuperMini
+    // Tür auf + Schlüssel (BLE-Anhänger) nicht in der Nähe -> Alarm.
+    #include <BLEDevice.h>
+    #include <Preferences.h>
+
+    #define PIN_DOOR   3    // Reedkontakt gegen GND, 1 MΩ Pull-up: HIGH = Tür offen
+    #define PIN_LEARN  10   // Taster LERNEN gegen GND
+    #define PIN_BUZZER 5    // aktiver Summer über S8050
+    #define PIN_LED    6    // grüne Status-LED
+
+    const int RSSI_NAH = -75;       // stärker als -75 dBm = Schlüssel ist nah
+    const int SCAN_SEKUNDEN = 2;
+
+    Preferences prefs;
+    String schluessel = "";
+    String naechsterMac = "";
+    int naechsterRssi = -127;
+
+    void blinken(int n) {
+      for (int i = 0; i < n; i++) {
+        digitalWrite(PIN_LED, HIGH); delay(120);
+        digitalWrite(PIN_LED, LOW);  delay(120);
+      }
+    }
+
+    void piepen(int n) {
+      for (int i = 0; i < n; i++) {
+        digitalWrite(PIN_BUZZER, HIGH); delay(200);
+        digitalWrite(PIN_BUZZER, LOW);  delay(150);
+      }
+    }
+
+    // Scannt BLE-Geräte. Liefert den RSSI des gelernten Schlüssels (oder -127)
+    // und merkt sich nebenbei das stärkste Gerät (zum Lernen).
+    int scanSchluessel() {
+      BLEScan* scan = BLEDevice::getScan();
+      scan->setActiveScan(true);
+      BLEScanResults* res = scan->start(SCAN_SEKUNDEN, false);
+      int rssiSchluessel = -127;
+      naechsterMac = "";
+      naechsterRssi = -127;
+      for (int i = 0; i < res->getCount(); i++) {
+        BLEAdvertisedDevice d = res->getDevice(i);
+        String mac = d.getAddress().toString().c_str();
+        int rssi = d.getRSSI();
+        Serial.printf("  gefunden: %s  %d dBm\n", mac.c_str(), rssi);
+        if (rssi > naechsterRssi) { naechsterRssi = rssi; naechsterMac = mac; }
+        if (mac == schluessel) rssiSchluessel = rssi;
+      }
+      scan->clearResults();
+      return rssiSchluessel;
+    }
+
+    void lernen() {
+      Serial.println("Lerne Schlüssel ...");
+      scanSchluessel();
+      if (naechsterRssi > -70) {
+        schluessel = naechsterMac;
+        prefs.putString("mac", schluessel);
+        Serial.println("Gelernt: " + schluessel + " (" + String(naechsterRssi) + " dBm)");
+        blinken(5);
+      } else {
+        Serial.println("Kein Schlüssel nah genug - bitte direkt an den Wächter halten.");
+        piepen(1);
+      }
+      while (digitalRead(PIN_LEARN) == LOW) delay(10);
+    }
+
+    void setup() {
+      Serial.begin(115200);
+      pinMode(PIN_DOOR, INPUT);
+      pinMode(PIN_LEARN, INPUT_PULLUP);
+      pinMode(PIN_BUZZER, OUTPUT);
+      pinMode(PIN_LED, OUTPUT);
+      prefs.begin("waechter", false);
+      schluessel = prefs.getString("mac", "");
+      BLEDevice::init("Tuerwaechter");
+      Serial.println("Tür-Wächter bereit. Schlüssel: " + (schluessel.length() > 0 ? schluessel : String("noch keiner")));
+
+      if (esp_sleep_get_wakeup_cause() == ESP_SLEEP_WAKEUP_UNDEFINED) {
+        // Nach dem Einlegen der Batterien: 10 s Lernfenster
+        Serial.println("Lernfenster (10 s): Schlüssel an den Wächter halten und LERNEN drücken.");
+        unsigned long start = millis();
+        while (millis() - start < 10000) {
+          if (digitalRead(PIN_LEARN) == LOW) lernen();
+          delay(20);
+        }
+      }
+    }
+
+    void loop() {
+      if (digitalRead(PIN_DOOR) == HIGH) {            // Tür offen
+        Serial.println("Tür geöffnet - suche Schlüssel ...");
+        int rssi = scanSchluessel();
+        if (schluessel.length() > 0 && rssi > RSSI_NAH) {
+          Serial.printf("Schlüssel dabei (%d dBm) - alles gut.\n", rssi);
+          blinken(1);
+        } else {
+          Serial.println("ALARM: Schlüssel nicht in der Nähe!");
+          piepen(5);
+        }
+        while (digitalRead(PIN_DOOR) == HIGH) {       // warten, bis die Tür zu ist
+          if (digitalRead(PIN_LEARN) == LOW) lernen();
+          delay(50);
+        }
+        Serial.println("Tür geschlossen.");
+      }
+      // Stromsparen: Deep-Sleep, bis die Tür aufgeht (GPIO3 wird HIGH)
+      Serial.println("Gehe schlafen ...");
+      esp_deep_sleep_enable_gpio_wakeup(1ULL << PIN_DOOR, ESP_GPIO_WAKEUP_GPIO_HIGH);
+      esp_deep_sleep_start();
+    }
+
+test:
+  - schritt: SW2 drücken, TAG1.entfernung = 0.1m
+    erwartet: D1 blinkt 5x
+  - schritt: MAG1 wegziehen (Tür auf), TAG1.entfernung = 20m
+    erwartet: BZ1 piept innerhalb von 3s

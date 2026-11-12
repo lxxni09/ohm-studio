@@ -1,0 +1,51 @@
+ohm: 1
+projekt:
+  name: Raumthermometer mit LCD
+  beschreibung: DHT22 misst Temperatur und Luftfeuchte, ein 16x2-LCD zeigt die Werte an.
+teile:
+  U1:  { typ: arduino-uno }
+  S1:  { typ: dht22, temperatur: 22.5, feuchte: 48 }
+  LCD: { typ: lcd1602 }
+netze:
+  5V:   [U1.5V, S1.VCC, LCD.VCC]
+  GND:  [U1.GND, S1.GND, LCD.GND]
+  DATA: [U1.D2, S1.DATA]
+  SDA:  [U1.A4, LCD.SDA]
+  SCL:  [U1.A5, LCD.SCL]
+code:
+  ziel: U1
+  sprache: arduino
+  datei: |
+    #include <DHT.h>
+    #include <LiquidCrystal_I2C.h>
+
+    DHT dht(2, DHT22);
+    LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+    void setup() {
+      dht.begin();
+      lcd.init();
+      lcd.backlight();
+      lcd.setCursor(0, 0);
+      lcd.print("Thermometer");
+      delay(1000);
+    }
+
+    void loop() {
+      float t = dht.readTemperature();
+      float h = dht.readHumidity();
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Temp:  ");
+      lcd.print(t, 1);
+      lcd.print((char)223);
+      lcd.print("C");
+      lcd.setCursor(0, 1);
+      lcd.print("Feuchte: ");
+      lcd.print(h, 0);
+      lcd.print("%");
+      delay(2000);
+    }
+test:
+  - schritt: S1.temperatur = 30
+    erwartet: LCD zeigt "30.0"

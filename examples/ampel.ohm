@@ -1,0 +1,65 @@
+ohm: 1
+projekt:
+  name: Fußgängerampel
+  beschreibung: Arduino Nano schaltet eine Autoampel; auf Knopfdruck bekommen Fußgänger Grün und ein Summer tickt.
+teile:
+  U1:  { typ: arduino-nano }
+  RR:  { typ: widerstand, wert: 220 }
+  RY:  { typ: widerstand, wert: 220 }
+  RG:  { typ: widerstand, wert: 220 }
+  RF:  { typ: widerstand, wert: 220 }
+  LR:  { typ: led, farbe: rot }
+  LY:  { typ: led, farbe: gelb }
+  LG:  { typ: led, farbe: gruen }
+  LF:  { typ: led, farbe: gruen, groesse: 3mm }
+  SW1: { typ: taster, farbe: gelb, label: DRÜCKEN }
+  BZ1: { typ: summer, art: passiv }
+  RB:  { typ: widerstand, wert: 100 }
+netze:
+  R:   [U1.D4, RR.1]
+  Y:   [U1.D5, RY.1]
+  G:   [U1.D6, RG.1]
+  F:   [U1.D7, RF.1]
+  RA:  [RR.2, LR.A]
+  YA:  [RY.2, LY.A]
+  GA:  [RG.2, LG.A]
+  FA:  [RF.2, LF.A]
+  BTN: [U1.D2, SW1.1]
+  BZ:  [U1.D9, RB.1]
+  BZR: [RB.2, BZ1.+]
+  GND: [U1.GND, LR.K, LY.K, LG.K, LF.K, SW1.2, BZ1.-]
+code:
+  ziel: U1
+  sprache: arduino
+  datei: |
+    const int ROT = 4, GELB = 5, GRUEN = 6, FUSS = 7, TASTER = 2, SUMMER = 9;
+    volatile bool anforderung = false;
+
+    void druck() { anforderung = true; }
+
+    void setup() {
+      for (int p = 4; p <= 7; p++) pinMode(p, OUTPUT);
+      pinMode(TASTER, INPUT_PULLUP);
+      attachInterrupt(digitalPinToInterrupt(TASTER), druck, FALLING);
+      digitalWrite(GRUEN, HIGH);
+      Serial.begin(9600);
+      Serial.println("Ampel bereit - Taster druecken!");
+    }
+
+    void loop() {
+      if (anforderung) {
+        Serial.println("Anforderung erkannt");
+        delay(1000);
+        digitalWrite(GRUEN, LOW); digitalWrite(GELB, HIGH); delay(1500);
+        digitalWrite(GELB, LOW);  digitalWrite(ROT, HIGH);  delay(800);
+        digitalWrite(FUSS, HIGH);
+        for (int i = 0; i < 8; i++) { tone(SUMMER, 880, 60); delay(500); }
+        digitalWrite(FUSS, LOW); delay(800);
+        digitalWrite(GELB, HIGH); delay(1000);
+        digitalWrite(ROT, LOW); digitalWrite(GELB, LOW); digitalWrite(GRUEN, HIGH);
+        anforderung = false;
+      }
+    }
+test:
+  - schritt: SW1 drücken
+    erwartet: LF leuchtet innerhalb von 6s

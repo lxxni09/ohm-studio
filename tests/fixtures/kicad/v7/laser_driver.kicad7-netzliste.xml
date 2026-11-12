@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/tmp/claude-0/-home-user-Claude/1012c9fa-869c-59f6-a9f7-55bc1ce9397b/scratchpad/kicad7/laser_driver.kicad_sch</source>
+    <date>Thu Nov 12 00:34:09 2026</date>
+    <tool>Eeschema 7.0.11+dfsg-1build4</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>laser_driver.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>1p</value>
+      <libsource lib="laser_driver_schlib" part="C" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578eb076</tstamps>
+    </comp>
+    <comp ref="C2">
+      <value>1p</value>
+      <libsource lib="laser_driver_schlib" part="C" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00005789085b</tstamps>
+    </comp>
+    <comp ref="D1">
+      <value>laser diode</value>
+      <fields>
+        <field name="Fieldname">qtlp690c</field>
+        <field name="Sim.Library">laser.lib</field>
+        <field name="Sim.Name">laser</field>
+        <field name="Sim.Pins">2=1 1=2</field>
+      </fields>
+      <libsource lib="laser_driver_schlib" part="LED" description=""/>
+      <property name="Fieldname" value="qtlp690c"/>
+      <property name="Sim.Library" value="laser.lib"/>
+      <property name="Sim.Name" value="laser"/>
+      <property name="Sim.Pins" value="2=1 1=2"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578eb1e8</tstamps>
+    </comp>
+    <comp ref="Q1">
+      <value>fzt1049a</value>
+      <fields>
+        <field name="Fieldname">Value</field>
+        <field name="Sim.Library">fzt1049a.lib</field>
+        <field name="Sim.Name">fzt1049a</field>
+        <field name="Sim.Pins">1=C 1=C 2=B 2=B 3=E 3=E</field>
+      </fields>
+      <libsource lib="laser_driver_schlib" part="Q_NPN_CBE" description=""/>
+      <property name="Fieldname" value="Value"/>
+      <property name="Sim.Library" value="fzt1049a.lib"/>
+      <property name="Sim.Name" value="fzt1049a"/>
+      <property name="Sim.Pins" value="1=C 1=C 2=B 2=B 3=E 3=E"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578eadcc</tstamps>
+    </comp>
+    <comp ref="R1">
+      <value>220</value>
+      <libsource lib="" part="R_1" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578ea7ee</tstamps>
+    </comp>
+    <comp ref="R2">
+      <value>160</value>
+      <libsource lib="" part="R_2" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578ebb39</tstamps>
+    </comp>
+    <comp ref="R3">
+      <value>220</value>
+      <libsource lib="" part="R_4" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578ea8b4</tstamps>
+    </comp>
+    <comp ref="R4">
+      <value>220</value>
+      <libsource lib="" part="R_3" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578eba35</tstamps>
+    </comp>
+    <comp ref="R5">
+      <value>2.5</value>
+      <libsource lib="laser_driver_schlib" part="R" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578ea6d8</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>AD8009</value>
+      <fields>
+        <field name="Fieldname">Value</field>
+        <field name="Sim.Library">ad8009.lib</field>
+        <field name="Sim.Name">ad8009</field>
+        <field name="Sim.Pins">1=1 2=2 3=99 4=50 5=28</field>
+      </fields>
+      <libsource lib="laser_driver_schlib" part="Generic_Opamp" description=""/>
+      <property name="Fieldname" value="Value"/>
+      <property name="Sim.Library" value="ad8009.lib"/>
+      <property name="Sim.Name" value="ad8009"/>
+      <property name="Sim.Pins" value="1=1 2=2 3=99 4=50 5=28"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-00005788ff9f</tstamps>
+    </comp>
+    <comp ref="V1">
+      <value>pulse (check properties)</value>
+      <fields>
+        <field name="Sim.Device">V</field>
+        <field name="Sim.Params">y1=0 y2=3 td=100n tr=1n tf=1n tw=20n per=100n</field>
+        <field name="Sim.Pins">1=+ 2=-</field>
+        <field name="Sim.Type">PULSE</field>
+      </fields>
+      <libsource lib="laser_driver_schlib" part="VSOURCE" description=""/>
+      <property name="Sim.Device" value="V"/>
+      <property name="Sim.Type" value="PULSE"/>
+      <property name="Sim.Params" value="y1=0 y2=3 td=100n tr=1n tf=1n tw=20n per=100n"/>
+      <property name="Sim.Pins" value="1=+ 2=-"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000057336052</tstamps>
+    </comp>
+    <comp ref="V2">
+      <value>10</value>
+      <fields>
+        <field name="Fieldname">Value</field>
+        <field name="Sim.Device">V</field>
+        <field name="Sim.Pins">1=1 2=2</field>
+        <field name="Sim.Type">DC</field>
+      </fields>
+      <libsource lib="laser_driver_schlib" part="VSOURCE" description=""/>
+      <property name="Fieldname" value="Value"/>
+      <property name="Sim.Device" value="V"/>
+      <property name="Sim.Type" value="DC"/>
+      <property name="Sim.Pins" value="1=1 2=2"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-0000578900ba</tstamps>
+    </comp>
+    <comp ref="V3">
+      <value>10</value>
+      <fields>
+        <field name="Fieldname">Value</field>
+        <field name="Sim.Device">V</field>
+        <field name="Sim.Pins">1=1 2=2</field>
+        <field name="Sim.Type">DC</field>
+      </fields>
+      <libsource lib="laser_driver_schlib" part="VSOURCE" description=""/>
+      <property name="Fieldname" value="Value"/>
+      <property name="Sim.Device" value="V"/>
+      <property name="Sim.Type" value="DC"/>
+      <property name="Sim.Pins" value="1=1 2=2"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="laser_driver.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00000000-0000-0000-0000-000057890232</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="" part="R_1">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="R_2">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_2</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="R_3">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_3</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="R_4">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_4</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="laser_driver_schlib" part="C">
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="laser_driver_schlib" part="Generic_Opamp">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">Generic_Opamp</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+" type="input"/>
+        <pin num="2" name="-" type="input"/>
+        <pin num="3" name="V+" type="power_in"/>
+        <pin num="4" name="V-" type="power_in"/>
+        <pin num="5" name="" type="output"/>
+      </pins>
+    </libpart>
+    <libpart lib="laser_driver_schlib" part="LED">
+      <footprints>
+        <fp>LED-3MM</fp>
+        <fp>LED-5MM</fp>
+        <fp>LED-10MM</fp>
+        <fp>LED-0603</fp>
+        <fp>LED-0805</fp>
+        <fp>LED-1206</fp>
+        <fp>LEDV</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="laser_driver_schlib" part="Q_NPN_CBE">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">Q_NPN_CBE</field>
+      </fields>
+      <pins>
+        <pin num="1" name="C" type="passive"/>
+        <pin num="2" name="B" type="input"/>
+        <pin num="3" name="E" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="laser_driver_schlib" part="R">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="laser_driver_schlib" part="VSOURCE">
+      <fields>
+        <field name="Reference">V</field>
+        <field name="Value">VSOURCE</field>
+        <field name="Fieldname">Value</field>
+        <field name="Spice_Primitive">V</field>
+        <field name="Spice_Node_Sequence">1 2</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="input"/>
+        <pin num="2" name="" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries/>
+  <nets>
+    <net code="1" name="/in">
+      <node ref="R2" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="V1" pin="1" pintype="input"/>
+    </net>
+    <net code="2" name="/out">
+      <node ref="C2" pin="1" pintype="passive"/>
+      <node ref="D1" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="R4" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R5" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="3" name="GND">
+      <node ref="D1" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="V1" pin="2" pintype="input"/>
+      <node ref="V2" pin="2" pintype="input"/>
+      <node ref="V3" pin="1" pintype="input"/>
+    </net>
+    <net code="4" name="Net-(Q1-B)">
+      <node ref="Q1" pin="2" pinfunction="B" pintype="input"/>
+      <node ref="U1" pin="5" pintype="output"/>
+    </net>
+    <net code="5" name="Net-(Q1-E)">
+      <node ref="C1" pin="2" pintype="passive"/>
+      <node ref="C2" pin="2" pintype="passive"/>
+      <node ref="Q1" pin="3" pinfunction="E" pintype="passive"/>
+      <node ref="R3" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R5" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="6" name="Net-(U1-+)">
+      <node ref="R2" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R4" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="1" pinfunction="+" pintype="input"/>
+    </net>
+    <net code="7" name="Net-(U1--)">
+      <node ref="C1" pin="1" pintype="passive"/>
+      <node ref="R1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="R3" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="2" pinfunction="-" pintype="input"/>
+    </net>
+    <net code="8" name="VDD">
+      <node ref="Q1" pin="1" pinfunction="C" pintype="passive"/>
+      <node ref="U1" pin="3" pinfunction="V+" pintype="power_in"/>
+      <node ref="V2" pin="1" pintype="input"/>
+    </net>
+    <net code="9" name="VSS">
+      <node ref="U1" pin="4" pinfunction="V-" pintype="power_in"/>
+      <node ref="V3" pin="2" pintype="input"/>
+    </net>
+  </nets>
+</export>

@@ -1,0 +1,33 @@
+ohm: 1
+projekt:
+  name: Servo per Drehknopf
+  beschreibung: Ein Potentiometer stellt den Winkel eines SG90-Servos ein – am Raspberry Pi Pico.
+teile:
+  U1:  { typ: pico }
+  RV1: { typ: potentiometer, wert: 10k, position: 0.3 }
+  M1:  { typ: servo }
+netze:
+  3V3:  [U1.3V3, RV1.3]
+  5V:   [U1.VBUS, M1.V+]
+  GND:  [U1.GND, RV1.1, M1.GND]
+  POT:  [U1.GP26, RV1.2]
+  SIG:  [U1.GP15, M1.SIG]
+code:
+  ziel: U1
+  sprache: arduino
+  datei: |
+    #include <Servo.h>
+    Servo servo;
+
+    void setup() {
+      Serial.begin(115200);
+      servo.attach(15);
+    }
+
+    void loop() {
+      int roh = analogRead(A0);          // 0..1023 (Standardauflösung)
+      int winkel = map(roh, 0, 1023, 0, 180);
+      servo.write(winkel);
+      Serial.println(winkel);
+      delay(20);
+    }

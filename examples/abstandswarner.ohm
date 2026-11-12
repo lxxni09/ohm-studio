@@ -1,0 +1,50 @@
+ohm: 1
+projekt:
+  name: Einpark-Abstandswarner
+  beschreibung: Ein HC-SR04 misst den Abstand; je näher das Hindernis, desto schneller piept der Summer.
+teile:
+  U1:  { typ: arduino-uno }
+  S1:  { typ: hc-sr04, entfernung: 80 }
+  BZ1: { typ: summer, art: passiv }
+  R1:  { typ: widerstand, wert: 100 }
+netze:
+  5V:   [U1.5V, S1.VCC]
+  GND:  [U1.GND, S1.GND, BZ1.-]
+  TRIG: [U1.D9, S1.TRIG]
+  ECHO: [U1.D10, S1.ECHO]
+  BZ:   [U1.D8, R1.1]
+  BZR:  [R1.2, BZ1.+]
+code:
+  ziel: U1
+  sprache: arduino
+  datei: |
+    const int TRIG = 9, ECHO = 10, SUMMER = 8;
+
+    long abstandCm() {
+      digitalWrite(TRIG, LOW);  delayMicroseconds(2);
+      digitalWrite(TRIG, HIGH); delayMicroseconds(10);
+      digitalWrite(TRIG, LOW);
+      long dauer = pulseIn(ECHO, HIGH, 30000);
+      return dauer / 58;
+    }
+
+    void setup() {
+      pinMode(TRIG, OUTPUT);
+      pinMode(ECHO, INPUT);
+      Serial.begin(9600);
+    }
+
+    void loop() {
+      long cm = abstandCm();
+      Serial.print(cm);
+      Serial.println(" cm");
+      if (cm > 0 && cm < 100) {
+        tone(SUMMER, 1800, 60);
+        delay(map(cm, 0, 100, 80, 800));
+      } else {
+        delay(200);
+      }
+    }
+test:
+  - schritt: S1.entfernung = 20
+    erwartet: BZ1 piept innerhalb von 1s

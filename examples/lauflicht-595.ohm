@@ -1,0 +1,54 @@
+ohm: 1
+projekt:
+  name: Lauflicht mit Schieberegister
+  beschreibung: Ein 74HC595 erweitert den Arduino um 8 Ausgänge – drei Pins steuern acht LEDs.
+teile:
+  U1: { typ: arduino-uno }
+  U2: { typ: 74hc595 }
+  R1: { typ: widerstand, wert: 220 }
+  R2: { typ: widerstand, wert: 220 }
+  R3: { typ: widerstand, wert: 220 }
+  R4: { typ: widerstand, wert: 220 }
+  D1: { typ: led, farbe: rot }
+  D2: { typ: led, farbe: orange }
+  D3: { typ: led, farbe: gelb }
+  D4: { typ: led, farbe: gruen }
+netze:
+  DATA:  [U1.D11, U2.SER]
+  CLOCK: [U1.D12, U2.SRCLK]
+  LATCH: [U1.D8, U2.RCLK]
+  5V:    [U1.5V, U2.VCC, U2.SRCLR]
+  GND:   [U1.GND, U2.GND, U2.OE, D1.K, D2.K, D3.K, D4.K]
+  QA:    [U2.QA, R1.1]
+  QB:    [U2.QB, R2.1]
+  QC:    [U2.QC, R3.1]
+  QD:    [U2.QD, R4.1]
+  A1:    [R1.2, D1.A]
+  A2:    [R2.2, D2.A]
+  A3:    [R3.2, D3.A]
+  A4:    [R4.2, D4.A]
+code:
+  ziel: U1
+  sprache: arduino
+  datei: |
+    const int DATA = 11, CLOCK = 12, LATCH = 8;
+
+    void zeige(byte muster) {
+      digitalWrite(LATCH, LOW);
+      shiftOut(DATA, CLOCK, MSBFIRST, muster);
+      digitalWrite(LATCH, HIGH);
+    }
+
+    void setup() {
+      pinMode(DATA, OUTPUT);
+      pinMode(CLOCK, OUTPUT);
+      pinMode(LATCH, OUTPUT);
+    }
+
+    void loop() {
+      for (int i = 0; i < 4; i++) { zeige(1 << i); delay(150); }
+      for (int i = 3; i > 0; i--) { zeige(1 << i); delay(150); }
+    }
+test:
+  - schritt: warte 1s
+    erwartet: D4 leuchtet

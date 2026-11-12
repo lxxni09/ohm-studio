@@ -1,0 +1,177 @@
+{
+  "name": "@nodaris/ohm-studio",
+  "private": true,
+  "version": "3.0.0",
+  "type": "module",
+  "description": "Ohm Studio by Nodaris – Elektronik entwerfen, simulieren und fertigen.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "ohm": "tsx scripts/ohm.ts",
+    "schema": "tsx scripts/ohm.ts schema > ohm.schema.json",
+    "app": "vite build && electron .",
+    "dist:win": "vite build && electron-builder --win nsis nsis-web portable --publish never",
+    "dist:mac": "vite build && electron-builder --mac dmg",
+    "dist:linux": "vite build && electron-builder --linux AppImage",
+    "dist:win:all": "vite build && electron-builder --win nsis nsis-web msi portable --publish never",
+    "server": "node server/nodaris-server.mjs",
+    "license": "node scripts/license-tool.mjs",
+    "coverage": "vitest run --coverage --coverage.include='src/sim/**' --coverage.reporter=text-summary"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "avr8js": "^0.21.1",
+    "electron-updater": "^6.8.11",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rp2040js": "^1.4.1",
+    "three": "^0.170.0",
+    "yaml": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.170.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "@vitest/coverage-v8": "^3.2.7",
+    "axe-core": "^4.10.3",
+    "electron": "^38.8.6",
+    "electron-builder": "^26.18.0",
+    "playwright": "^1.63.0",
+    "tsx": "^4.19.0",
+    "typescript": "~5.8.0",
+    "vite": "^7.0.0",
+    "vitest": "^3.2.0"
+  },
+  "main": "electron/main.cjs",
+  "author": {
+    "name": "Nodaris",
+    "email": "support@nodaris.example",
+    "url": "https://nodaris.example"
+  },
+  "build": {
+    "appId": "com.nodaris.ohmstudio",
+    "productName": "Ohm Studio",
+    "copyright": "© 2026 Nodaris",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "electron/**",
+      "build/icon.png",
+      "package.json"
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": true,
+      "artifactName": "OhmStudio-${version}-${arch}.${ext}",
+      "legalTrademarks": "Ohm Studio by Nodaris",
+      "signtoolOptions": {
+        "publisherName": "Nodaris"
+      },
+      "target": [
+        "nsis",
+        "nsis-web",
+        "portable"
+      ],
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "portable": {
+      "artifactName": "OhmStudio-${version}-portable.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "OhmStudio-Setup-${version}-offline.${ext}",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "uninstallerSidebar": "build/uninstallerSidebar.bmp",
+      "installerHeader": "build/installerHeader.bmp",
+      "license": "build/license.txt",
+      "include": "build/ohm-installer.nsh",
+      "createDesktopShortcut": false,
+      "createStartMenuShortcut": false,
+      "shortcutName": "Ohm Studio",
+      "uninstallDisplayName": "Ohm Studio by Nodaris",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false,
+      "installerLanguages": [
+        "de_DE"
+      ],
+      "language": "1031",
+      "displayLanguageSelector": false,
+      "warningsAsErrors": false
+    },
+    "mac": {
+      "icon": "build/icon.png",
+      "category": "public.app-category.developer-tools",
+      "bundleVersion": "2.0.0",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "notarize": false,
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "category": "Development",
+      "maintainer": "Nodaris <support@nodaris.example>",
+      "vendor": "Nodaris",
+      "synopsis": "Ohm Studio by Nodaris"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "lxxni09",
+        "repo": "ohm-studio",
+        "releaseType": "release"
+      }
+    ],
+    "extraResources": [
+      {
+        "from": "examples",
+        "to": "examples",
+        "filter": [
+          "*.ohm"
+        ]
+      },
+      {
+        "from": "electron/esp32",
+        "to": "esp32"
+      }
+    ],
+    "nsisWeb": {
+      "artifactName": "OhmStudio-Setup-${version}-web.${ext}"
+    },
+    "msi": {
+      "artifactName": "OhmStudio-${version}.${ext}",
+      "oneClick": false,
+      "perMachine": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Ohm Studio",
+      "runAfterFinish": false
+    },
+    "extraMetadata": {
+      "name": "ohm-studio"
+    }
+  },
+  "homepage": "https://nodaris.example"
+}

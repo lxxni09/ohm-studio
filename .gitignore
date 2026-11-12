@@ -1,0 +1,7 @@
+node_modules
+dist
+*.log
+release
+download
+.keys/
+e2e/out

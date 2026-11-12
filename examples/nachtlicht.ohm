@@ -1,0 +1,24 @@
+ohm: 1
+projekt:
+  name: Nachtlicht ohne Code
+  beschreibung: Ein Fotowiderstand steuert einen Transistor – wird es dunkel, geht die LED an. Ganz ohne Mikrocontroller.
+teile:
+  BAT1: { typ: batteriehalter, zellen: 3xAA }
+  LDR1: { typ: ldr, lux: 400 }
+  R1:   { typ: widerstand, wert: 10k }
+  R2:   { typ: widerstand, wert: 1k }
+  R3:   { typ: widerstand, wert: 150 }
+  Q1:   { typ: BC547 }
+  D1:   { typ: led, farbe: warmweiss }
+netze:
+  VCC:  [BAT1.+, R1.1, R3.1]
+  BASE: [R1.2, LDR1.1, R2.1]
+  B:    [R2.2, Q1.B]
+  LEDA: [R3.2, D1.A]
+  LEDK: [D1.K, Q1.C]
+  GND:  [BAT1.-, LDR1.2, Q1.E]
+test:
+  - schritt: LDR1.lux = 1000
+    erwartet: D1 ist aus
+  - schritt: LDR1.lux = 2
+    erwartet: D1 leuchtet

@@ -1,0 +1,44 @@
+name: Ohm Studio – echter ESP32 auf Windows
+
+# Prüft den echten ESP32-Modus auf einem echten Windows-Rechner: Werkzeuge genau wie im Programm laden
+# (arduino-cli, ESP32-Kern, Espressif-QEMU), dann Abnahmetest Türwächter (ESP32-C3) und klassischer ESP32.
+on:
+  push:
+    paths: ['electron/esp32.cjs', 'electron/esp32/**', 'src/mcu/cores/esp32qemu.ts', 'e2e/esp32-*', '.github/workflows/ohm-studio-esp32-windows.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: ohm-studio-esp32-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  esp32:
+    runs-on: windows-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - name: Werkzeugordner festlegen
+        shell: pwsh
+        run: echo "OHM_ESP32_TOOLS=$env:RUNNER_TEMP\ohm-esp32" >> $env:GITHUB_ENV
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: ESP32-Werkzeuge laden (wie Einstellungen → Emulatoren)
+        run: npx electron e2e/esp32-werkzeuge.cjs
+      - name: Klassischer ESP32 (Pins, ADC, Deep-Sleep mit RTC-Variable)
+        run: npx electron e2e/esp32-klassisch.cjs
+      - name: Abnahmetest Türwächter (ESP32-C3) im Desktop-Programm
+        if: always()
+        run: |
+          npx vite build
+          node e2e/esp32-tuerwaechter.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: esp32-windows
+          path: |
+            e2e/out/
+            ${{ runner.temp }}/ohm-esp32/esp32.log

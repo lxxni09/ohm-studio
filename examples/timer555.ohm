@@ -1,0 +1,24 @@
+ohm: 1
+projekt:
+  name: 555-Blinker
+  beschreibung: Der Klassiker ohne Mikrocontroller – ein NE555 als astabiler Multivibrator lässt eine LED blinken (f ≈ 1,44 / ((R1 + 2·R2)·C)).
+teile:
+  BAT1: { typ: batterie-9v }
+  U1:   { typ: ne555 }
+  R1:   { typ: widerstand, wert: 10k }
+  R2:   { typ: widerstand, wert: 47k }
+  C1:   { typ: elko, wert: 10uF, spannung: 16V }
+  C2:   { typ: kondensator, wert: 10nF }
+  R3:   { typ: widerstand, wert: 470 }
+  D1:   { typ: led, farbe: rot }
+netze:
+  VCC:  [BAT1.+, U1.VCC, U1.RESET, R1.1]
+  DIS:  [R1.2, U1.DIS, R2.1]
+  THR:  [R2.2, U1.THR, U1.TRIG, C1.+]
+  CTRL: [U1.CTRL, C2.1]
+  OUT:  [U1.OUT, R3.1]
+  LEDA: [R3.2, D1.A]
+  GND:  [BAT1.-, U1.GND, C1.-, C2.2, D1.K]
+test:
+  - schritt: warte 1s
+    erwartet: D1 blinkt mindestens 3x innerhalb von 3s

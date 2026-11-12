@@ -1,0 +1,43 @@
+name: Ohm Studio – Qualität (Tests, End-to-End, Gerber-Gegenprüfung)
+
+on:
+  push:
+  workflow_dispatch:
+
+concurrency:
+  group: ohm-studio-qualitaet-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qualitaet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - name: Typprüfung
+        run: npx tsc --noEmit
+      - name: Komponententests
+        run: npx vitest run
+      - name: Gerber unabhängig prüfen (gerbonara)
+        run: |
+          pip install gerbonara
+          bash scripts/check_all_gerber.sh
+      - name: End-to-End-Tests (Oberfläche + Desktop-Programm)
+        run: |
+          npx playwright install --with-deps chromium
+          npx vite build
+          xvfb-run -a node e2e/run.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-bildschirmfotos
+          path: e2e/out/*.png
