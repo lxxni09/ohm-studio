@@ -25,6 +25,10 @@ export function KontoModal() {
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
   const [url, setUrl] = useState(server);
+  // Nach dem Abmelden wieder im Modus „Anmelden“ starten
+  useEffect(() => {
+    if (user) setNeu(false);
+  }, [user?.name]);
 
   if (user)
     return (

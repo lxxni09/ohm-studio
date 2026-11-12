@@ -20,6 +20,7 @@ const OUT = join(ROOT, 'e2e', 'out');
 mkdirSync(OUT, { recursive: true });
 const results = [];
 async function test(name, fn) {
+  if (process.env.ONLY && !name.includes(process.env.ONLY)) return;
   const t = Date.now();
   try {
     await fn();
@@ -257,7 +258,9 @@ await test('Nodaris-Konto: ohne Server ehrlicher Hinweis; mit Server Konto anleg
   await page.fill('input[aria-label="Passwort wiederholen"]', 'geheim1234');
   await page.locator('.konto-form .chk input').check();
   await page.locator('.konto-form button[type=submit]').click();
-  await page.waitForSelector('.konto-name');
+  await page.waitForSelector('.konto-name', { timeout: 5000 }).catch(async (e) => {
+    throw new Error(`${e.message}\nFenster: ${await page.locator('.modal').innerText()}`);
+  });
   assert.equal(await page.locator('.rb-account span').textContent(), 'konto_test');
   await page.getByRole('button', { name: 'Abmelden' }).click();
   await page.waitForSelector('.konto-form');
