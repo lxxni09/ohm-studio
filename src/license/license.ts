@@ -15,6 +15,8 @@ export const TRIAL_DAYS = 14;
 const DAY = 86400000;
 
 /** Durchsetzung der Planlimits. In der Vorschau-Version aus, bis die Bezahlung live ist (siehe ENTSCHEIDUNGEN.md). */
+/** Lizenzserver für die Online-Prüfung. Ohne Server gelten Lizenzen bis zum Ablaufdatum ohne Online-Prüfung. */
+export const LICENSE_SERVER = ((import.meta as { env?: Record<string, string> }).env?.VITE_LICENSE_SERVER ?? '').replace(/\/$/, '');
 export const ENFORCE = (import.meta as { env?: Record<string, string> }).env?.VITE_LICENSE_ENFORCE === '1';
 
 export interface LicensePayload {
@@ -36,6 +38,8 @@ export interface LicenseState {
   payload?: LicensePayload;
   lastCheck?: number;
   trialStart?: number;
+  /** Testphase vom Gerät für beendet erklärt (Uhr zurückgestellt / Eintrag verändert) */
+  trialEnded?: boolean;
 }
 
 export interface Entitlement {
@@ -74,16 +78,16 @@ export async function signLicense(payload: LicensePayload, privateKey: CryptoKey
 }
 
 /** Berechnet den aktuellen Anspruch – rein, ohne Netz */
-export function entitlement(st: LicenseState, now = Date.now()): Entitlement {
+export function entitlement(st: LicenseState, now = Date.now(), server = LICENSE_SERVER): Entitlement {
   const p = st.payload;
   if (p && p.expires > now) {
     const since = now - (st.lastCheck ?? p.issued);
-    if (p.offline || since <= GRACE_DAYS * DAY) {
-      return { plan: p.plan, source: since > DAY && !p.offline ? 'grace' : 'license', daysLeft: Math.ceil((p.expires - now) / DAY), note: p.offline ? 'Offline-Lizenz' : since > DAY ? `Offline – noch ${Math.max(0, GRACE_DAYS - Math.floor(since / DAY))} Tage bis zur nächsten Prüfung` : undefined, features: planById(p.plan).features };
+    if (p.offline || !server || since <= GRACE_DAYS * DAY) {
+      return { plan: p.plan, source: since > DAY && !p.offline && server ? 'grace' : 'license', daysLeft: Math.ceil((p.expires - now) / DAY), note: p.offline ? 'Offline-Lizenz' : since > DAY && server ? `Offline – noch ${Math.max(0, GRACE_DAYS - Math.floor(since / DAY))} Tage bis zur nächsten Prüfung` : undefined, features: planById(p.plan).features };
     }
     return { plan: 'free', source: 'free', note: `Lizenz seit über ${GRACE_DAYS} Tagen nicht geprüft – bitte einmal online gehen. Deine Projekte bleiben vollständig erhalten.`, features: planById('free').features };
   }
-  if (st.trialStart && now - st.trialStart < TRIAL_DAYS * DAY) {
+  if (st.trialStart && !st.trialEnded && now - st.trialStart < TRIAL_DAYS * DAY) {
     return { plan: 'pro', source: 'trial', daysLeft: Math.ceil((st.trialStart + TRIAL_DAYS * DAY - now) / DAY), features: planById('pro').features };
   }
   return { plan: 'free', source: 'free', note: p && p.expires <= now ? 'Lizenz abgelaufen.' : undefined, features: planById('free').features };
@@ -144,12 +148,37 @@ export function startTrial(): boolean {
   const st = loadLicense();
   if (st.trialStart) return false;
   saveLicense({ ...st, trialStart: Date.now() });
+  // Im Windows-Programm zusätzlich am Gerät festhalten (übersteht Neuinstallation)
+  void deviceTrial()?.start(loadLicense().trialStart).then(applyDeviceTrial);
   return true;
+}
+
+type DeviceTrialApi = { status(): Promise<{ start: number | null; ended: boolean }>; start(at?: number): Promise<{ start: number | null; ended: boolean }> };
+function deviceTrial(): DeviceTrialApi | null {
+  return ((globalThis as { ohmNative?: { trial?: DeviceTrialApi } }).ohmNative?.trial ?? null) as DeviceTrialApi | null;
+}
+
+/** Gerätezustand übernehmen: frühester Start gewinnt, „beendet“ bleibt beendet */
+export function applyDeviceTrial(d: { start: number | null; ended: boolean } | null) {
+  if (!d) return;
+  const st = loadLicense();
+  const start = d.start === null ? st.trialStart : st.trialStart ? Math.min(st.trialStart, d.start) : d.start;
+  if (start === st.trialStart && !!d.ended === !!st.trialEnded) return;
+  saveLicense({ ...st, trialStart: start, trialEnded: d.ended || undefined });
+}
+
+/** Beim Start: Testphase mit dem Gerät abgleichen (nur Windows-Programm) */
+export async function syncDeviceTrial() {
+  const api = deviceTrial();
+  if (!api) return;
+  const st = loadLicense();
+  // Lokal schon gestartet, Gerät weiß noch nichts → am Gerät eintragen (start() behält einen früheren Gerätestart)
+  applyDeviceTrial(await (st.trialStart ? api.start(st.trialStart) : api.status()));
 }
 
 export function removeLicense() {
   const st = loadLicense();
-  saveLicense({ trialStart: st.trialStart });
+  saveLicense({ trialStart: st.trialStart, trialEnded: st.trialEnded });
 }
 
 /** Online-Prüfung: sendet nur die Lizenz-ID. Schlägt still fehl, wenn kein Netz – dann greift die Kulanz. */
@@ -157,11 +186,12 @@ export async function checkOnline(): Promise<boolean> {
   const st = loadLicense();
   if (!st.payload || st.payload.offline) return false;
   try {
-    const r = await fetch(`https://api.${BRAND.domain}/v1/license/${encodeURIComponent(st.payload.id)}`, { signal: AbortSignal.timeout(5000) });
+    if (!LICENSE_SERVER) return false;
+    const r = await fetch(`${LICENSE_SERVER}/v1/license/${encodeURIComponent(st.payload.id)}`, { signal: AbortSignal.timeout(5000) });
     if (!r.ok) return false;
     const j = (await r.json()) as { valid: boolean };
     if (j.valid) saveLicense({ ...st, lastCheck: Date.now() });
-    else saveLicense({ trialStart: st.trialStart });
+    else saveLicense({ trialStart: st.trialStart, trialEnded: st.trialEnded });
     return true;
   } catch {
     return false;

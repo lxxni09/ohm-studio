@@ -409,6 +409,7 @@ ipcMain.handle('ohm:compile', async (_e, fqbn, code) => {
 
 // Echter ESP32-Modus (arduino-cli + Espressif-QEMU als eigene Prozesse)
 require('./esp32.cjs').register();
+require('./trial.cjs').register();
 
 /* ------------------------------------------------------------------ */
 /* Automatische Updates                                                */
@@ -459,8 +460,10 @@ async function checkUpdates(interactive) {
 ipcMain.handle('ohm:updateCheck', (_e, channel, interactive) => {
   const u = getUpdater();
   if (u) {
-    u.channel = channel === 'beta' ? 'beta' : 'latest';
-    u.allowPrerelease = channel === 'beta';
+    // Es gibt (noch) nur einen Veröffentlichungsweg: beide Kanäle lesen latest.yml vom neuesten Release
+    u.channel = 'latest';
+    u.allowPrerelease = false;
+    void channel;
   }
   return checkUpdates(!!interactive);
 });

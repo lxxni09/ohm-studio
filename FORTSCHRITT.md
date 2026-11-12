@@ -25,6 +25,14 @@ Dort die Datei **`OhmStudio-Setup-3.0.0-offline.exe`** nehmen (ca. 110 MB, alles
 
 **Neu (12.11.2026, auf deinen Wunsch):** Oben ist jetzt eine **Menüleiste mit Reitern** wie in CAD-Programmen (Datei · Start · Simulation · Platine & Fertigung · Analyse & KI · Team · **Einstellungen** · Hilfe), sachlicherer Stil (grau/blau, eckiger). Der Fehler, dass man nicht in die Einstellungen kam (das „…“-Menü wurde abgeschnitten), ist damit weg. **Clip-Funktion entfernt.** **Tastenkürzel** gibt es als Knopf oben in der Leiste (Reiter Einstellungen oder Hilfe → „Tastenkürzel“), außerdem zeigt jeder Knopf sein Kürzel, wenn du mit der Maus drauf bleibst (z. B. „Speichern (Strg+S)“); neu: **F11** für Vollbild. Neuer Knopf **„Leeres Projekt“** (Strg+N).
 
+**Neu (12.11.2026, Abend):**
+- **Updates im Programm:** Jeder Build hat jetzt eine eigene Versionsnummer (3.0.2, 3.0.3 …). Einstellungen → Updates → „Jetzt prüfen“ findet die neue Version und installiert sie. Einmalig musst du das Setup aus dem neuen Repository installieren – die alte Version zeigt noch aufs private Repository.
+- **14 Tage Pro testen, an den Rechner gebunden:** Neu installieren setzt die Testphase nicht zurück; Uhr zurückstellen beendet sie.
+- **Lizenz-Generator:** `tools/lizenz-generator.html` (siehe Checkliste „Einnahmen einschalten“).
+- **Preise angepasst** (Marktvergleich): Plus 5 €/Monat oder 49 €/Jahr, Pro 12 €/Monat oder 119 €/Jahr, Team 29 € pro Nutzer/Monat.
+- **Anmelden:** Knopf oben rechts in der Titelleiste und im Reiter Einstellungen. Braucht den Nodaris-Server – bis der läuft, sagt das Fenster das ehrlich.
+- Planlimits sind weiterhin **aus**, bis du sie (mit deinen Eltern) einschaltest.
+
 **Was noch nicht funktioniert (ehrlich):**
 - **Galerie, Teilen-Link, Marktplatz** brauchen einen Server im Internet – bis dahin zeigt die Galerie nur die Beispiele.
 - **Automatische Updates** und der kleine Web-Installer gehen erst, wenn die Downloads **öffentlich** sind.

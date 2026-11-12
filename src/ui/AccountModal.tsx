@@ -38,6 +38,9 @@ export function AccountBody() {
             {st.payload?.test && ' · Testlizenz'}
           </div>
           {ent.note && <div className="info-text" style={{ margin: '4px 0 0' }}>{ent.note}</div>}
+          {st.trialStart && ent.source === 'free' && !st.payload && (
+            <div className="info-text" style={{ margin: '4px 0 0' }}>Die 14-Tage-Testphase auf diesem Rechner ist {st.trialEnded ? 'beendet' : 'abgelaufen'}. Mit einem Lizenzcode schaltest du den Plan frei.</div>
+          )}
         </div>
         <div className="btn-row">
           {!st.trialStart && ent.source === 'free' && (

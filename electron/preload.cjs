@@ -27,6 +27,11 @@ contextBridge.exposeInMainWorld('ohmNative', {
   which: (cmd) => ipcRenderer.invoke('ohm:which', cmd),
   /** Sketch mit arduino-cli kompilieren → { ok, hex?, uf2Base64?, log } */
   compile: (fqbn, code) => ipcRenderer.invoke('ohm:compile', fqbn, code),
+  /** Testphase, an das Gerät gebunden → { start, ended, reason?, device } */
+  trial: {
+    status: () => ipcRenderer.invoke('ohm:trial:status'),
+    start: (at) => ipcRenderer.invoke('ohm:trial:start', at),
+  },
   /** Echter ESP32-Modus (Espressif-QEMU) */
   esp32: {
     status: () => ipcRenderer.invoke('ohm:esp32:status'),

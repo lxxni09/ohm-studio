@@ -53,6 +53,16 @@ function store(p: Partial<Stored>) {
   } catch {
     /* egal */
   }
+  kontoListeners.forEach((l) => l());
+}
+
+/** Anmeldestatus hat sich geändert (Anmelden, Abmelden, Server gewechselt) */
+const kontoListeners = new Set<() => void>();
+export function onKontoChange(fn: () => void) {
+  kontoListeners.add(fn);
+  return () => {
+    kontoListeners.delete(fn);
+  };
 }
 
 export const gallery = {

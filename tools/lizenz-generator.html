@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nodaris Lizenz-Generator</title>
+<style>
+  :root { --bg: #eef0f3; --panel: #fff; --text: #1d2228; --muted: #5b6470; --border: #c9cdd3; --accent: #1a63b3; --ok: #1f7a3a; --bad: #b42318; color-scheme: light dark; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #1e2023; --panel: #2d3034; --text: #e8eaed; --muted: #a9b0b8; --border: #4a4f56; --accent: #4a9be8; --ok: #5cc27a; --bad: #ff7b6e; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 'Segoe UI', system-ui, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 20px 16px 60px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  h2 { font-size: 15px; margin: 0 0 10px; }
+  p.lead { color: var(--muted); margin: 0 0 18px; }
+  section { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; padding: 16px; margin-bottom: 14px; }
+  label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; padding: 7px 8px; border: 1px solid var(--border); border-radius: 3px; background: var(--panel); color: var(--text); font: inherit; }
+  textarea { font-family: Consolas, monospace; font-size: 12px; min-height: 64px; word-break: break-all; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+  button { padding: 7px 14px; border: 1px solid var(--border); border-radius: 3px; background: var(--panel); color: var(--text); font: inherit; cursor: pointer; margin: 10px 8px 0 0; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .note { font-size: 12px; color: var(--muted); }
+  .ok { color: var(--ok); font-weight: 600; }
+  .bad { color: var(--bad); font-weight: 600; }
+  .warn { border-left: 3px solid var(--bad); padding: 8px 10px; background: color-mix(in srgb, var(--bad) 8%, transparent); font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  td, th { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--border); }
+  .check { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+  .check input { width: auto; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Nodaris Lizenz-Generator</h1>
+  <p class="lead">Erstellt Lizenzcodes (<code>NODARIS-…</code>) für Ohm Studio. Läuft komplett in diesem Browser – nichts wird ins Internet gesendet.</p>
+
+  <section id="keysec">
+    <h2>1. Dein Signatur-Schlüssel</h2>
+    <div id="keystate" class="note">Wird geladen …</div>
+    <div class="warn" style="margin-top:10px">Der <b>private</b> Schlüssel ist wie ein Generalschlüssel: Wer ihn hat, kann beliebig Lizenzen erstellen. Sicherungsdatei nie hochladen, nie verschicken, auf einem USB-Stick aufbewahren.</div>
+    <button class="primary" id="gen">Neuen Schlüssel erzeugen</button>
+    <button id="backup">Sicherung herunterladen</button>
+    <button id="restore">Sicherung laden …</button>
+    <input type="file" id="restorefile" accept=".json,application/json" hidden />
+    <label for="pub">Öffentlicher Schlüssel (darf jeder sehen – kommt ins Programm, Datei <code>src/license/license.ts</code> → <code>LICENSE_PUBLIC_KEY</code>)</label>
+    <textarea id="pub" readonly></textarea>
+    <button id="copypub">Öffentlichen Schlüssel kopieren</button>
+    <div id="match" class="note"></div>
+  </section>
+
+  <section>
+    <h2>2. Lizenz erstellen</h2>
+    <div class="row">
+      <div>
+        <label for="plan">Plan</label>
+        <select id="plan">
+          <option value="plus">Nodaris Plus</option>
+          <option value="pro" selected>Nodaris Pro</option>
+          <option value="team">Nodaris Team</option>
+          <option value="enterprise">Nodaris Enterprise</option>
+        </select>
+      </div>
+      <div>
+        <label for="dauer">Laufzeit</label>
+        <select id="dauer">
+          <option value="31">1 Monat</option>
+          <option value="366" selected>1 Jahr</option>
+          <option value="731">2 Jahre</option>
+          <option value="36500">unbegrenzt (100 Jahre)</option>
+          <option value="custom">eigene Anzahl Tage …</option>
+        </select>
+      </div>
+      <div>
+        <label for="name">Name des Kunden</label>
+        <input id="name" placeholder="z. B. Max Mustermann" />
+      </div>
+      <div>
+        <label for="email">E-Mail (optional)</label>
+        <input id="email" type="email" placeholder="optional" />
+      </div>
+      <div>
+        <label for="seats">Plätze (Rechner/Nutzer)</label>
+        <input id="seats" type="number" min="1" value="1" />
+      </div>
+      <div id="tagewrap" hidden>
+        <label for="tage">Tage</label>
+        <input id="tage" type="number" min="1" value="14" />
+      </div>
+    </div>
+    <div class="check"><input type="checkbox" id="offline" /><label for="offline" style="margin:0">Offline-Lizenz (ohne Online-Prüfung, z. B. Firmen ohne Internet)</label></div>
+    <button class="primary" id="make">Lizenzcode erstellen</button>
+    <label for="out">Lizenzcode – dem Kunden schicken; er gibt ihn in Ohm Studio unter Einstellungen → Konto &amp; Pläne ein</label>
+    <textarea id="out" readonly></textarea>
+    <button id="copyout">Code kopieren</button>
+    <span id="made" class="note"></span>
+  </section>
+
+  <section>
+    <h2>3. Lizenzcode prüfen</h2>
+    <textarea id="chk" placeholder="NODARIS-…"></textarea>
+    <button id="verify">Prüfen</button>
+    <div id="verres" class="note"></div>
+  </section>
+
+  <section>
+    <h2>Ausgestellte Lizenzen</h2>
+    <div id="hist" class="note">Noch keine.</div>
+    <button id="csv">Als CSV herunterladen</button>
+  </section>
+
+  <p class="note">Rechtlicher Hinweis: Lizenzen gegen Geld zu verkaufen ist ein Geschäft – vorher mit den Eltern die Betreiber-Checkliste (rechtliches/BETREIBER-CHECKLISTE.md) durchgehen.</p>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const LS_KEY = 'nodaris.lizenz.schluessel';
+  const LS_HIST = 'nodaris.lizenz.liste';
+  const PROGRAMM_KEY = 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAER4gEaOCNsXRgIKTswPREvBRttfCd7KHkWd9tqKr1rLcTKgmog9LqVuYq8LW7A7RRDTMrRK9FRyCFd+Bp+pxudg==';
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); return true; } catch { return false; } },
+  };
+  const b64 = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)));
+  const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const b64u = (buf) => b64(buf).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const unb64u = (s) => unb64(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4));
+  const ALG = { name: 'ECDSA', namedCurve: 'P-256' };
+  let priv = null;
+  let pubB64 = '';
+
+  async function load(rec) {
+    priv = await crypto.subtle.importKey('pkcs8', unb64(rec.privat), ALG, true, ['sign']);
+    pubB64 = rec.oeffentlich;
+    $('pub').value = pubB64;
+    $('keystate').innerHTML = `<span class="ok">Schlüssel geladen</span> (erstellt ${new Date(rec.erstellt).toLocaleDateString('de-DE')}).`;
+    $('match').innerHTML = pubB64 === PROGRAMM_KEY
+      ? '<span class="ok">Passt zum Schlüssel im Programm.</span>'
+      : 'Dieser Schlüssel ist noch <b>nicht</b> im Programm. Öffentlichen Schlüssel kopieren und an Claude schicken („trag diesen Lizenzschlüssel ein“) – erst danach akzeptiert Ohm Studio damit erstellte Codes.';
+  }
+
+  async function init() {
+    const raw = store.get(LS_KEY);
+    if (raw) {
+      try { await load(JSON.parse(raw)); } catch { $('keystate').innerHTML = '<span class="bad">Gespeicherter Schlüssel ist beschädigt.</span> Sicherung laden.'; }
+    } else {
+      $('keystate').textContent = 'Noch kein Schlüssel in diesem Browser. Neuen erzeugen oder Sicherung laden.';
+    }
+    renderHist();
+  }
+
+  $('gen').onclick = async () => {
+    if (priv && !confirm('Es gibt schon einen Schlüssel. Ein neuer macht alle bisher erstellten Lizenzen ungültig, sobald er im Programm eingetragen ist. Trotzdem neu erzeugen?')) return;
+    const kp = await crypto.subtle.generateKey(ALG, true, ['sign', 'verify']);
+    const rec = { art: 'nodaris-lizenzschluessel', erstellt: Date.now(), privat: b64(await crypto.subtle.exportKey('pkcs8', kp.privateKey)), oeffentlich: b64(await crypto.subtle.exportKey('spki', kp.publicKey)) };
+    store.set(LS_KEY, JSON.stringify(rec));
+    await load(rec);
+    download('nodaris-lizenzschluessel-PRIVAT.json', JSON.stringify(rec, null, 2), 'application/json');
+    alert('Schlüssel erzeugt. Die Sicherungsdatei wurde heruntergeladen – gut aufbewahren (z. B. USB-Stick)! Ohne sie kannst du nach dem Löschen der Browserdaten keine Lizenzen mehr erstellen.');
+  };
+  $('backup').onclick = () => {
+    const raw = store.get(LS_KEY);
+    if (!raw) return alert('Kein Schlüssel vorhanden.');
+    download('nodaris-lizenzschluessel-PRIVAT.json', JSON.stringify(JSON.parse(raw), null, 2), 'application/json');
+  };
+  $('restore').onclick = () => $('restorefile').click();
+  $('restorefile').onchange = async (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    try {
+      const rec = JSON.parse(await f.text());
+      if (rec.art !== 'nodaris-lizenzschluessel') throw new Error();
+      await load(rec);
+      store.set(LS_KEY, JSON.stringify(rec));
+    } catch { alert('Das ist keine gültige Sicherungsdatei.'); }
+  };
+  $('copypub').onclick = () => copy($('pub').value);
+  $('dauer').onchange = () => ($('tagewrap').hidden = $('dauer').value !== 'custom');
+
+  $('make').onclick = async () => {
+    if (!priv) return alert('Erst einen Schlüssel erzeugen oder laden.');
+    const name = $('name').value.trim();
+    if (!name) return alert('Bitte einen Namen eintragen.');
+    const tage = $('dauer').value === 'custom' ? Math.max(1, +$('tage').value || 1) : +$('dauer').value;
+    const now = Date.now();
+    const payload = { id: crypto.randomUUID(), plan: $('plan').value, name, seats: Math.max(1, +$('seats').value || 1), issued: now, expires: now + tage * 86400000 };
+    const email = $('email').value.trim();
+    if (email) payload.email = email;
+    if ($('offline').checked) payload.offline = true;
+    const data = new TextEncoder().encode(JSON.stringify(payload));
+    const sig = await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, priv, data);
+    const code = `NODARIS-${b64u(data)}.${b64u(sig)}`;
+    $('out').value = code;
+    $('made').textContent = `Gültig bis ${new Date(payload.expires).toLocaleDateString('de-DE')}.`;
+    const hist = JSON.parse(store.get(LS_HIST) || '[]');
+    hist.unshift({ ...payload, code });
+    store.set(LS_HIST, JSON.stringify(hist));
+    renderHist();
+  };
+  $('copyout').onclick = () => copy($('out').value);
+
+  $('verify').onclick = async () => {
+    const m = /^NODARIS-([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec($('chk').value.trim());
+    const res = $('verres');
+    if (!m) return (res.innerHTML = '<span class="bad">Kein Lizenzcode.</span>');
+    const data = unb64u(m[1]);
+    let payload;
+    try { payload = JSON.parse(new TextDecoder().decode(data)); } catch { return (res.innerHTML = '<span class="bad">Beschädigt.</span>'); }
+    const check = async (key) => {
+      if (!key) return false;
+      const pk = await crypto.subtle.importKey('spki', unb64(key), ALG, false, ['verify']);
+      return crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, pk, unb64u(m[2]), data);
+    };
+    const mine = await check(pubB64);
+    const prog = await check(PROGRAMM_KEY);
+    const abgelaufen = payload.expires < Date.now();
+    res.innerHTML = `${mine ? '<span class="ok">Echt – mit deinem Schlüssel unterschrieben.</span>' : '<span class="bad">Nicht mit deinem Schlüssel unterschrieben.</span>'}<br>
+      Programm akzeptiert ihn: ${prog && !abgelaufen ? '<span class="ok">ja</span>' : '<span class="bad">nein</span>'}${abgelaufen ? ' (abgelaufen)' : ''}<br>
+      ${esc(payload.plan)} · ${esc(payload.name)} · ${payload.seats} Platz/Plätze · gültig bis ${new Date(payload.expires).toLocaleDateString('de-DE')}${payload.offline ? ' · offline' : ''}`;
+  };
+
+  function renderHist() {
+    const hist = JSON.parse(store.get(LS_HIST) || '[]');
+    if (!hist.length) return;
+    $('hist').innerHTML = `<table><tr><th>Datum</th><th>Plan</th><th>Name</th><th>Plätze</th><th>bis</th></tr>${hist
+      .map((h) => `<tr><td>${new Date(h.issued).toLocaleDateString('de-DE')}</td><td>${esc(h.plan)}</td><td>${esc(h.name)}</td><td>${h.seats}</td><td>${new Date(h.expires).toLocaleDateString('de-DE')}</td></tr>`)
+      .join('')}</table>`;
+  }
+  $('csv').onclick = () => {
+    const hist = JSON.parse(store.get(LS_HIST) || '[]');
+    const rows = [['id', 'datum', 'plan', 'name', 'email', 'plaetze', 'gueltig_bis', 'code'], ...hist.map((h) => [h.id, new Date(h.issued).toISOString(), h.plan, h.name, h.email || '', h.seats, new Date(h.expires).toISOString(), h.code])];
+    download('nodaris-lizenzen.csv', rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(';')).join('\r\n'), 'text/csv');
+  };
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]); }
+  function copy(t) { if (!t) return; navigator.clipboard?.writeText(t).then(() => {}, () => prompt('Kopieren:', t)); }
+  function download(name, text, type) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type }));
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+  init();
+})();
+</script>
+</body>
+</html>

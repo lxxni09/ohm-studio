@@ -234,6 +234,47 @@ await test('Galerie ohne Server: ehrlicher Hinweis, die 10 offiziellen Beispiele
   await ctx.close();
 });
 
+await test('Nodaris-Konto: ohne Server ehrlicher Hinweis; mit Server Konto anlegen, abmelden, anmelden', async () => {
+  const { page, errors, ctx } = await freshPage();
+  await page.locator('.rb-account').click();
+  await page.waitForSelector('.modal:has-text("Nodaris-Server")');
+  await page.keyboard.press('Escape');
+  const g = createGallery({ dataDir: mkdtempSync(join(tmpdir(), 'konto-e2e-')), examplesDir: join(ROOT, 'examples') });
+  const srv = http.createServer(async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') return res.writeHead(204).end();
+    if (!(await g.handle(req, res, new globalThis.URL(req.url, 'http://x')))) res.writeHead(404).end();
+  });
+  await new Promise((r) => srv.listen(0, '127.0.0.1', r));
+  const server = `http://127.0.0.1:${srv.address().port}`;
+  await page.locator('.rb-account').click();
+  await page.fill('input[aria-label="Server-Adresse"]', server);
+  await page.getByRole('button', { name: 'Übernehmen' }).click();
+  await page.getByRole('button', { name: 'Neues Konto anlegen' }).click();
+  await page.fill('input[aria-label="Spitzname"]', 'konto_test');
+  await page.fill('input[aria-label="Passwort"]', 'geheim1234');
+  await page.fill('input[aria-label="Passwort wiederholen"]', 'geheim1234');
+  await page.locator('.konto-form .chk input').check();
+  await page.locator('.konto-form button[type=submit]').click();
+  await page.waitForSelector('.konto-name');
+  assert.equal(await page.locator('.rb-account span').textContent(), 'konto_test');
+  await page.getByRole('button', { name: 'Abmelden' }).click();
+  await page.waitForSelector('.konto-form');
+  assert.equal(await page.locator('.rb-account span').textContent(), 'Anmelden');
+  await page.fill('input[aria-label="Spitzname"]', 'konto_test');
+  await page.fill('input[aria-label="Passwort"]', 'falsch999');
+  await page.locator('.konto-form button[type=submit]').click();
+  await page.waitForSelector('.konto .idea-error');
+  await page.fill('input[aria-label="Passwort"]', 'geheim1234');
+  await page.locator('.konto-form button[type=submit]').click();
+  await page.waitForSelector('.konto-name');
+  await page.keyboard.press('Escape');
+  srv.close();
+  assert.deepEqual(errors.filter((e) => !/401|Failed to load resource/.test(e)), []);
+  await ctx.close();
+});
+
 await test('Community-Galerie mit Server: Konto, Remix, Teilen mit Vorschau, Like, Kommentar, Melden, Moderation', async () => {
   let offset = 0;
   const g = createGallery({ dataDir: mkdtempSync(join(tmpdir(), 'gal-e2e-')), examplesDir: join(ROOT, 'examples'), now: () => Date.now() + offset });

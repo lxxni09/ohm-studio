@@ -35,6 +35,12 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
+      - name: Versionsnummer setzen (jeder Build bekommt eine neue, damit Updates erkannt werden)
+        run: |
+          VER="3.0.${{ github.run_number }}"
+          npm version "$VER" --no-git-tag-version --allow-same-version
+          sed -i "s/version: '[0-9.]*'/version: '$VER'/" src/brand/brand.ts
+          echo "Version $VER"
       - name: Tests
         run: npx vitest run
       - name: Programm und Installer bauen
@@ -44,6 +50,16 @@ jobs:
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+          # Schalter für Einnahmen & Server (GitHub → Settings → Secrets and variables → Actions → Variables). Leer = aus.
+          VITE_LICENSE_ENFORCE: ${{ vars.VITE_LICENSE_ENFORCE }}
+          VITE_LICENSE_SERVER: ${{ vars.VITE_LICENSE_SERVER }}
+          VITE_GALLERY_URL: ${{ vars.VITE_GALLERY_URL }}
+          VITE_PARTNER_LINKS: ${{ vars.VITE_PARTNER_LINKS }}
+          VITE_PARTNER_REICHELT: ${{ vars.VITE_PARTNER_REICHELT }}
+          VITE_PARTNER_BERRYBASE: ${{ vars.VITE_PARTNER_BERRYBASE }}
+          VITE_PARTNER_LCSC: ${{ vars.VITE_PARTNER_LCSC }}
+          VITE_KITS: ${{ vars.VITE_KITS }}
+          VITE_MARKETPLACE: ${{ vars.VITE_MARKETPLACE }}
       - name: Installer prüfen
         run: |
           ls -la release release/nsis-web

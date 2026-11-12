@@ -13,6 +13,7 @@ Ohm Studio arbeitet **lokal auf deinem Gerät**. Projekte, Code und Simulationen
 
 | Funktion | Welche Daten | Empfänger | Rechtsgrundlage | Wann |
 |---|---|---|---|---|
+| Testphase (Windows-Programm) | Startdatum, anonyme Geräte-Kennung (Einweg-Hash der Windows-MachineGuid), gespeichert nur lokal (Registry HKCU und Benutzerprofil) | – (verlässt den Rechner nicht) | Art. 6 Abs. 1 lit. f DSGVO (Schutz vor Mehrfach-Testphasen) | bleibt nach Deinstallation, löschbar über Registry-Schlüssel `HKCU\Software\Nodaris\OhmStudio` und `%LOCALAPPDATA%\Nodaris` |
 | Lizenzprüfung | Lizenz-ID | Nodaris | Art. 6 Abs. 1 lit. b DSGVO (Vertrag) | nur mit aktivierter Lizenz, max. täglich |
 | Update-Suche | Programmversion, Kanal, IP-Adresse (technisch) | Nodaris | Art. 6 Abs. 1 lit. f (Sicherheit) | beim Start, abschaltbar |
 | KI-Funktionen | Projektinhalt, Code, ggf. PDF-Datenblätter | Anthropic PBC (USA) bzw. der von deiner Organisation eingetragene Anbieter | Art. 6 Abs. 1 lit. a (Einwilligung durch Eingabe des eigenen Schlüssels und Aufruf) | nur auf Aufruf |

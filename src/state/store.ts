@@ -31,7 +31,7 @@ export interface AppState {
   tick: number;
   fileName: string;
   dirty: boolean;
-  modal: null | 'assistant' | 'export' | 'examples' | 'about' | 'stackup' | 'account' | 'history' | 'analysis' | 'library' | 'settings' | 'enclosure' | 'learn' | 'review' | 'idee' | 'galerie' | 'import' | 'shortcuts';
+  modal: null | 'assistant' | 'export' | 'examples' | 'about' | 'stackup' | 'account' | 'history' | 'analysis' | 'library' | 'settings' | 'enclosure' | 'learn' | 'review' | 'idee' | 'galerie' | 'import' | 'shortcuts' | 'konto';
   galerieTab?: 'entdecken' | 'teilen' | 'admin';
   /** Projekt, das die Galerie direkt öffnen soll (Link) */
   galerieOpen?: string;

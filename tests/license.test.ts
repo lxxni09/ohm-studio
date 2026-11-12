@@ -7,8 +7,8 @@ const DAY = 86400000;
 
 describe('Lizenzen', () => {
   it('Pläne entsprechen der Preistabelle', () => {
-    expect(PLANS.map((p) => p.monat)).toEqual([0, 6, 19, 49, null]);
-    expect(planById('plus').jahr).toBe(60);
+    expect(PLANS.map((p) => p.monat)).toEqual([0, 5, 12, 29, null]);
+    expect(planById('plus').jahr).toBe(49);
     expect(planById('free').features.maxLayers).toBe(2);
     expect(planById('pro').features.analyses).toBe(true);
   });
@@ -30,10 +30,16 @@ describe('Lizenzen', () => {
   it('Offline-Kulanz 14 Tage, danach Free – Testphase 14 Tage Pro', () => {
     const now = Date.now();
     const payload: LicensePayload = { id: 'x', plan: 'team', name: 'A', seats: 3, issued: now - 40 * DAY, expires: now + 300 * DAY };
-    expect(entitlement({ payload, lastCheck: now - 3 * DAY }, now)).toMatchObject({ plan: 'team', source: 'grace' });
-    expect(entitlement({ payload, lastCheck: now - (GRACE_DAYS + 1) * DAY }, now).plan).toBe('free');
-    expect(entitlement({ payload: { ...payload, offline: true }, lastCheck: now - 200 * DAY }, now).plan).toBe('team');
+    const S = 'https://lizenz.example';
+    expect(entitlement({ payload, lastCheck: now - 3 * DAY }, now, S)).toMatchObject({ plan: 'team', source: 'grace' });
+    expect(entitlement({ payload, lastCheck: now - (GRACE_DAYS + 1) * DAY }, now, S).plan).toBe('free');
+    expect(entitlement({ payload: { ...payload, offline: true }, lastCheck: now - 200 * DAY }, now, S).plan).toBe('team');
+    // Ohne Lizenzserver: gilt bis zum Ablaufdatum, keine Online-Prüfung nötig
+    expect(entitlement({ payload, lastCheck: now - 200 * DAY }, now, '')).toMatchObject({ plan: 'team', source: 'license' });
+    expect(entitlement({ payload: { ...payload, expires: now - DAY } }, now, '').plan).toBe('free');
     expect(entitlement({ trialStart: now - 5 * DAY }, now)).toMatchObject({ plan: 'pro', source: 'trial', daysLeft: 9 });
     expect(entitlement({ trialStart: now - 15 * DAY }, now).plan).toBe('free');
+    // Vom Gerät beendet (Uhr zurückgestellt / Eintrag verändert)
+    expect(entitlement({ trialStart: now - 2 * DAY, trialEnded: true }, now).plan).toBe('free');
   });
 });

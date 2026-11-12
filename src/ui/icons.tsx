@@ -259,6 +259,12 @@ export const Icon = {
       <circle cx="17.5" cy="20.5" r="1" fill="currentColor" />
     </I>
   ),
+  user: (p: P) => (
+    <I {...p}>
+      <circle cx="12" cy="8.5" r="3.8" />
+      <path d="M4.5 20c.8-3.8 3.9-6 7.5-6s6.7 2.2 7.5 6" />
+    </I>
+  ),
   monitor: (p: P) => (
     <I {...p}>
       <rect x="3" y="4" width="18" height="12.5" rx="2" />

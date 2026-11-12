@@ -23,6 +23,7 @@ import { ImportModal } from './ImportModal';
 import { LearnBody } from './LearnModal';
 import { audit, org } from '../enterprise/org';
 import { t } from '../i18n';
+import { KontoModal } from './KontoModal';
 import { assemblyPdf, fabPackage, ipc2581, pickPlaceCsv, stepModel, testPointsCsv } from '../export/fab';
 import { sourcedBom, sourcedBomCsv } from '../export/sourcing';
 
@@ -320,6 +321,7 @@ export function Modals() {
   if (m === 'assistant') return <Assistant />;
   if (m === 'about') return <About />;
   if (m === 'shortcuts') return <Shortcuts />;
+  if (m === 'konto') return <KontoModal />;
   if (m === 'stackup') return <StackupModal />;
   if (m === 'review')
     return (

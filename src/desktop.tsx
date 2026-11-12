@@ -36,6 +36,15 @@ interface DesktopApi {
   onCloseRequest(fn: () => void): void;
   onWindowState(fn: (s: { maximized: boolean; fullscreen: boolean }) => void): void;
   updateCheck(channel: string, interactive?: boolean): Promise<unknown>;
+  trial?: { status(): Promise<DeviceTrial>; start(at?: number): Promise<DeviceTrial> };
+}
+
+/** Testphase laut Gerät (überlebt Neuinstallation) */
+export interface DeviceTrial {
+  start: number | null;
+  ended: boolean;
+  reason?: 'verändert' | 'uhr';
+  device: string;
 }
 
 export interface OhmLink {
@@ -187,6 +196,8 @@ export async function initDesktop(handlers: { open: (f: { path: string; name: st
   const root = document.documentElement;
   root.classList.add('desktop');
   if (d.platform === 'win32') root.classList.add('win32');
+  // Testphase mit dem Gerät abgleichen (Neuinstallation setzt sie nicht zurück)
+  void import('./license/license').then((m) => m.syncDeviceTrial()).catch(() => undefined);
 
   // Standard-Aktionen
   registerActions({

@@ -84,6 +84,10 @@ export function SettingsBody() {
                 <td>nur mit aktivierter Lizenz; ausschließlich die Lizenz-ID an {BRAND.company}</td>
               </tr>
               <tr>
+                <td>Testphase</td>
+                <td>Startdatum und anonyme Geräte-Kennung (Einweg-Hash) – bleibt auf diesem Rechner, wird nicht gesendet</td>
+              </tr>
+              <tr>
                 <td>Update-Suche</td>
                 <td>Programmversion und Kanal (abschaltbar)</td>
               </tr>

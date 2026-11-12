@@ -2,6 +2,7 @@
  * Obere Leiste im Stil technischer CAD-Programme (Ribbon): Titelzeile mit Schnellzugriff, darunter Reiter und
  * beschriftete Befehlsgruppen. Keine Aufklappmenüs – jeder Befehl ist mit einem Klick erreichbar.
  */
+import { useKonto } from './KontoModal';
 import { useState, type ReactNode } from 'react';
 import { openIdeaWizard } from './IdeaWizard';
 import { restartTour } from './Tour';
@@ -70,6 +71,7 @@ async function openSettings(tab: 'sprache' | 'emulatoren' | 'server' | 'richtlin
 }
 
 export function Toolbar() {
+  const konto = useKonto();
   const sim = useStore((s) => s.sim);
   const view = useStore((s) => s.view);
   const pcb3d = useStore((s) => s.pcb3d);
@@ -297,6 +299,7 @@ export function Toolbar() {
         <Group label="Daten & Konto">
           <Big icon={<Icon.info size={20} />} label="Datenschutz" onClick={() => void openSettings('datenschutz')} />
           <Big icon={<Icon.info size={20} />} label="Transparenz" onClick={() => void openSettings('transparenz')} />
+          <Big icon={<Icon.user size={20} />} label={konto.user ? 'Mein Konto' : 'Anmelden'} cls="konto-btn" onClick={() => set({ modal: 'konto' })} />
           <Big icon={<Icon.cart size={20} />} label="Konto & Pläne" onClick={() => set({ modal: 'account' })} />
         </Group>
       </>
@@ -337,6 +340,10 @@ export function Toolbar() {
           {dirty ? '● ' : ''}
           <b>{name}</b> – Ohm Studio
         </div>
+        <button className="rb-account" onClick={() => set({ modal: 'konto' })} title={konto.user ? `Angemeldet als ${konto.user.name}` : t('Anmelden')} aria-label={konto.user ? `Nodaris-Konto: ${konto.user.name}` : t('Anmelden')}>
+          <Icon.user size={14} />
+          <span>{konto.user ? konto.user.name : t('Anmelden')}</span>
+        </button>
       </div>
       <nav className="rb-tabs" role="tablist" aria-label="Befehle">
         {TABS.map(([k, l]) => (

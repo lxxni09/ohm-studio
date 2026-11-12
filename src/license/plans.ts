@@ -45,15 +45,15 @@ export const PLANS: Plan[] = [
     features: { commercial: false, privateProjects: 3, emulators: false, piLinux: false, maxLayers: 2, analyses: false, gerberLogo: true, advancedFab: false, aiPerMonth: 10, cloudGB: 0.5, collab: 'nein', historyDays: 7, reviews: false, api: false, sso: false, scim: false, auditLog: false, selfHosted: false, companyLibrary: false, support: 'Community-Forum' },
   },
   {
-    id: 'plus', name: 'Nodaris Plus', fuer: 'Bastler', monat: 6, jahr: 60, proNutzer: false,
+    id: 'plus', name: 'Nodaris Plus', fuer: 'Bastler', monat: 5, jahr: 49, proNutzer: false,
     features: { commercial: false, privateProjects: INF, emulators: true, piLinux: true, maxLayers: 4, analyses: false, gerberLogo: false, advancedFab: false, aiPerMonth: 100, cloudGB: 10, collab: 'nein', historyDays: 30, reviews: false, api: false, sso: false, scim: false, auditLog: false, selfHosted: false, companyLibrary: false, support: 'E-Mail' },
   },
   {
-    id: 'pro', name: 'Nodaris Pro', fuer: 'Selbstständige, Profis', monat: 19, jahr: 190, proNutzer: false,
+    id: 'pro', name: 'Nodaris Pro', fuer: 'Selbstständige, Profis', monat: 12, jahr: 119, proNutzer: false,
     features: { commercial: true, privateProjects: INF, emulators: true, piLinux: true, maxLayers: 32, analyses: true, gerberLogo: false, advancedFab: true, aiPerMonth: 500, cloudGB: 50, collab: '2 Gäste', historyDays: INF, reviews: true, api: true, sso: false, scim: false, auditLog: false, selfHosted: false, companyLibrary: false, support: 'E-Mail (48 h)' },
   },
   {
-    id: 'team', name: 'Nodaris Team', fuer: 'Firmen-Teams', monat: 49, jahr: 490, proNutzer: true,
+    id: 'team', name: 'Nodaris Team', fuer: 'Firmen-Teams', monat: 29, jahr: 290, proNutzer: true,
     features: { commercial: true, privateProjects: INF, emulators: true, piLinux: true, maxLayers: 32, analyses: true, gerberLogo: false, advancedFab: true, aiPerMonth: 1000, cloudGB: 200, collab: 'ja', historyDays: INF, reviews: true, api: true, sso: true, scim: false, auditLog: false, selfHosted: false, companyLibrary: false, support: 'Priorität (24 h)' },
   },
   {
