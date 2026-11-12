@@ -340,7 +340,7 @@ export function Toolbar() {
           {dirty ? '● ' : ''}
           <b>{name}</b> – Ohm Studio
         </div>
-        <button className="rb-account" onClick={() => set({ modal: 'konto' })} title={konto.user ? `Angemeldet als ${konto.user.name}` : t('Anmelden')} aria-label={konto.user ? `Nodaris-Konto: ${konto.user.name}` : t('Anmelden')}>
+        <button className="rb-account" onClick={() => set({ modal: 'konto' })} title={konto.user ? `Angemeldet als ${konto.user.name}` : t('Anmelden')} aria-label={konto.user ? `Nodaris-Konto: ${konto.user.name}` : `Nodaris-Konto: ${t('Anmelden')}`}>
           <Icon.user size={14} />
           <span>{konto.user ? konto.user.name : t('Anmelden')}</span>
         </button>
