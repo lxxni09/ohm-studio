@@ -9,7 +9,7 @@ import { planById, type PlanFeatures, type PlanId } from './plans';
 import { BRAND } from '../brand/brand';
 
 /** Öffentlicher Schlüssel des Lizenzservers (SPKI, Base64). Privater Schlüssel liegt nur beim Betreiber. */
-export const LICENSE_PUBLIC_KEY = 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAER4gEaOCNsXRgIKTswPREvBRttfCd7KHkWd9tqKr1rLcTKgmog9LqVuYq8LW7A7RRDTMrRK9FRyCFd+Bp+pxudg==';
+export const LICENSE_PUBLIC_KEY = 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEpTnz8jgvMRYDrPludutQglrs1N2wk10g6+VsddJw8ux4ybzYVHNnVGFazG1leiiRM3MXQLQfsts7/945szYG9A==';
 export const GRACE_DAYS = 14;
 export const TRIAL_DAYS = 14;
 const DAY = 86400000;
