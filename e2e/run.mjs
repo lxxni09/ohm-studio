@@ -78,8 +78,11 @@ await test('Beispielprojekt öffnen', async () => {
 
 await test('Leeres Projekt: über Start-Reiter und im Ideen-Assistenten', async () => {
   const { page, ctx } = await freshPage();
+  await page.locator('.welcome-card .blank-start').click();
+  await page.waitForSelector('.welcome-card', { state: 'detached' });
   await openExample(page, 'Fußgängerampel');
   await page.locator('.blank-btn').click();
+  assert.equal(await page.locator('.welcome-card').count(), 0);
   assert.equal(await reading(page, 'Teile'), 0);
   assert.equal(await page.locator('[data-part]').count(), 0);
   await openExample(page, 'Fußgängerampel');

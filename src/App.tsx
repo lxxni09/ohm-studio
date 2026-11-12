@@ -20,7 +20,8 @@ import { openIdeaWizard } from './ui/IdeaWizard';
 
 function Welcome() {
   const n = useStore((s) => s.project.parts.length);
-  if (n > 0) return null;
+  const hidden = useStore((s) => s.welcomeHidden);
+  if (n > 0 || hidden) return null;
   const tiles = [
     { t: 'Schlüssel-Türwächter', d: 'ESP32-C3, Reedkontakt, BLE-Anhänger', ex: 'schluessel-tuerwaechter' },
     { t: 'Blink – das erste Programm', d: 'Arduino Uno + LED', ex: 'blink' },
@@ -55,6 +56,9 @@ function Welcome() {
           ))}
         </div>
         <div className="btn-row" style={{ marginTop: 16 }}>
+          <button className="btn blank-start" onClick={() => newProject()} title="Mit einem komplett leeren Bauplan anfangen (Strg+N)">
+            <Icon.doc size={14} /> Leeres Projekt
+          </button>
           <button className="btn primary" onClick={() => openIdeaWizard()}>
             <Icon.sparkles size={14} /> Neues Projekt aus Idee
           </button>

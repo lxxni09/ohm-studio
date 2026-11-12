@@ -36,6 +36,8 @@ export interface AppState {
   /** Projekt, das die Galerie direkt öffnen soll (Link) */
   galerieOpen?: string;
   /** aktiver Reiter der oberen Leiste */
+  /** Willkommenskarte ausgeblendet (nach „Leeres Projekt“) */
+  welcomeHidden?: boolean;
   ribbonTab?: 'datei' | 'start' | 'simulation' | 'platine' | 'analyse' | 'team' | 'einstellungen' | 'hilfe';
   piMonitor: string | null;
   toast: { text: string; level: 'info' | 'warn' | 'error'; id: number } | null;
@@ -222,6 +224,7 @@ export function newProject() {
   replaceProject(p);
   state.fileName = 'projekt.ohm';
   state.dirty = false;
+  state.welcomeHidden = true;
   emit();
 }
 
