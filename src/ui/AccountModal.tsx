@@ -1,6 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { FEATURE_ROWS, formatFeature, PLANS, planById } from '../license/plans';
-import { activateLicense, checkoutUrl, currentEntitlement, ENFORCE, loadLicense, onLicenseChange, PORTAL_URL, removeLicense, startTrial, checkOnline } from '../license/license';
+import { activateLicense, checkoutUrl, currentEntitlement, ENFORCE, LICENSE_SERVER, loadLicense, onLicenseChange, PORTAL_URL, removeLicense, startTrial, checkOnline } from '../license/license';
 import { toast } from '../state/store';
 import { BRAND } from '../brand/brand';
 
@@ -143,7 +143,9 @@ export function AccountBody() {
         )}
       </div>
       <p className="info-text">
-        Die Lizenz wird lokal mit einer digitalen Signatur geprüft. Einmal täglich fragt Ohm Studio beim Nodaris-Lizenzserver nach, ob die Lizenz noch gilt – dabei wird nur die Lizenz-ID übertragen. Ohne Internet läuft alles {14} Tage weiter. Ohne Lizenz wird nichts übertragen.
+        {LICENSE_SERVER
+          ? 'Die Lizenz wird lokal mit einer digitalen Signatur geprüft. Einmal täglich fragt Ohm Studio beim Nodaris-Lizenzserver nach, ob die Lizenz noch gilt – dabei wird nur die Lizenz-ID übertragen. Ohne Internet läuft alles 14 Tage weiter. Ohne Lizenz wird nichts übertragen.'
+          : 'Die Lizenz wird nur hier auf dem Rechner mit einer digitalen Signatur geprüft und gilt bis zu ihrem Ablaufdatum – auch ohne Internet. Es wird nichts übertragen.'}
       </p>
       <h3 style={{ margin: '18px 0 6px', fontSize: 13 }}>Sonderangebote</h3>
       <ul className="info-text" style={{ margin: 0, paddingLeft: 18 }}>
