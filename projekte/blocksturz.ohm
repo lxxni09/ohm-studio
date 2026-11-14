@@ -2,46 +2,60 @@ ohm: 1
 projekt:
   name: Blocksturz
   autor: Nodaris
-  beschreibung: Fallende-Blöcke-Spiel auf einem OLED – Reihen füllen, Punkte sammeln, mit jeder Stufe wird es schneller.
+  beschreibung: Fallende-Blöcke-Spiel in Farbe auf dem großen 2,8-Zoll-TFT (240×320) – Reihen füllen, Punkte sammeln, mit jeder Stufe wird es schneller.
 teile:
   U1:   { typ: esp32-devkit }
-  DISP: { typ: ssd1306 }
+  TFT:  { typ: ili9341 }
   SW1:  { typ: taster, farbe: blau, label: Links }
   SW2:  { typ: taster, farbe: blau, label: Rechts }
   SW3:  { typ: taster, farbe: gruen, label: Drehen }
   SW4:  { typ: taster, farbe: rot, label: Fallen }
   BZ1:  { typ: summer, art: passiv, spannung: 3V }
 netze:
-  3V3:   [U1.3V3, DISP.VCC]
-  SDA:   [U1.IO21, DISP.SDA]
-  SCL:   [U1.IO22, DISP.SCL]
-  LINKS: [U1.IO27, SW1.1]
+  3V3:    [U1.3V3, TFT.VCC, TFT.LED]
+  CS:     [U1.IO5, TFT.CS]
+  DC:     [U1.IO2, TFT.DC]
+  RST:    [U1.IO4, TFT.RST]
+  MOSI:   [U1.IO23, TFT.MOSI]
+  MISO:   [U1.IO19, TFT.MISO]
+  SCK:    [U1.IO18, TFT.SCK]
+  LINKS:  [U1.IO27, SW1.1]
   RECHTS: [U1.IO26, SW2.1]
   DREHEN: [U1.IO25, SW3.1]
   FALLEN: [U1.IO33, SW4.1]
-  TON:   [U1.IO14, BZ1.+]
-  GND:   [U1.GND, DISP.GND, SW1.2, SW2.2, SW3.2, SW4.2, BZ1.-]
+  TON:    [U1.IO14, BZ1.+]
+  GND:    [U1.GND, TFT.GND, SW1.2, SW2.2, SW3.2, SW4.2, BZ1.-]
 code:
   ziel: U1
   sprache: arduino
   datei: |
-    #include <Wire.h>
+    #include <SPI.h>
     #include <Adafruit_GFX.h>
-    #include <Adafruit_SSD1306.h>
+    #include <Adafruit_ILI9341.h>
 
-    // Blocksturz – fallende Blöcke auf einem 128x64-OLED
+    // Blocksturz – fallende Blöcke in Farbe auf dem 2,8"-TFT (240x320, hochkant)
     // Links/Rechts: schieben, Drehen: drehen, Fallen: schneller fallen (gedrückt halten)
 
-    #define SUMMER 14
-    Adafruit_SSD1306 display(128, 64, &Wire, -1);
+    #define TFT_CS  5
+    #define TFT_DC  2
+    #define TFT_RST 4
+    #define SUMMER  14
+    Adafruit_ILI9341 tft(TFT_CS, TFT_DC, TFT_RST);
+
+    // Farben (RGB565)
+    #define SCHWARZ  0x0000
+    #define WEISS    0xFFFF
+    #define GRAU     0x8410
+    #define DUNKEL   0x10A2
+    #define GELB     0xFFE0
 
     const int SPALTEN = 10;
     const int REIHEN = 20;
-    const int ZELLE = 3;
-    const int FELD_X = 49;
-    const int FELD_Y = 2;
+    const int ZELLE = 14;
+    const int FELD_X = 8;
+    const int FELD_Y = 32;
 
-    int feld[200];
+    int feld[200];   // 0 = leer, 1..7 = Farbe des Blocks
 
     // 7 Formen mit je 4 Drehungen als 4x4-Bitmaske (Bit 15 = oben links)
     const unsigned int FORMEN[28] = {
@@ -53,6 +67,8 @@ code:
       0x44C0, 0x8E00, 0x6440, 0x0E20,
       0x4460, 0x0E80, 0xC440, 0x2E00
     };
+    // Farbe je Form: Türkis, Gelb, Lila, Grün, Rot, Blau, Orange
+    const unsigned int FARBEN[8] = { 0x0000, 0x07FF, 0xFFE0, 0xA81F, 0x07E0, 0xF800, 0x041F, 0xFC00 };
 
     int pins[4] = {27, 26, 25, 33};
     int warGedrueckt[4] = {0, 0, 0, 0};
@@ -64,9 +80,11 @@ code:
     int py = -1;
     int naechstes = 0;
     long punkte = 0;
+    long rekord = 0;
     int linien = 0;
     int stufe = 1;
     int vorbei = 0;
+    int neuZeichnen = 1;
     unsigned long fallZeit = 700;
     unsigned long letzterFall = 0;
 
@@ -97,6 +115,7 @@ code:
       vorbei = 0;
       naechstes = random(7);
       neuesTeil();
+      neuZeichnen = 1;
       Serial.println("Neues Spiel");
     }
 
@@ -108,6 +127,7 @@ code:
       py = -1;
       if (!passt(teil, drehung, px, py)) {
         vorbei = 1;
+        if (punkte > rekord) rekord = punkte;
         Serial.print("Spiel vorbei – Punkte: ");
         Serial.println(punkte);
         tone(SUMMER, 330, 150); delay(170);
@@ -155,7 +175,7 @@ code:
         for (int j = 0; j < 4; j++) {
           if (zelle(teil, drehung, i, j)) {
             int fy = py + i;
-            if (fy >= 0) feld[fy * SPALTEN + px + j] = 1;
+            if (fy >= 0) feld[fy * SPALTEN + px + j] = teil + 1;
           }
         }
       }
@@ -170,69 +190,100 @@ code:
       } else {
         festsetzen();
       }
+      neuZeichnen = 1;
+    }
+
+    void block(int x, int y, int groesse, unsigned int farbe) {
+      tft.fillRect(x, y, groesse - 1, groesse - 1, farbe);
+      tft.drawRect(x, y, groesse - 1, groesse - 1, WEISS);
+    }
+
+    void zahl(int x, int y, const char* titel, long wert) {
+      tft.setTextSize(1);
+      tft.setTextColor(GRAU);
+      tft.setCursor(x, y);
+      tft.print(titel);
+      tft.setTextSize(2);
+      tft.setTextColor(WEISS);
+      tft.setCursor(x, y + 11);
+      tft.print(wert);
     }
 
     void zeichnen() {
-      display.clearDisplay();
-      display.setTextColor(SSD1306_WHITE);
-      display.setTextSize(1);
+      tft.fillScreen(SCHWARZ);
 
-      // Spielfeld
-      display.drawRect(FELD_X - 2, FELD_Y - 2, SPALTEN * ZELLE + 4, REIHEN * ZELLE + 3, SSD1306_WHITE);
+      // Titel
+      tft.setTextSize(2);
+      tft.setTextColor(GELB);
+      tft.setCursor(8, 8);
+      tft.print("BLOCKSTURZ");
+
+      // Spielfeld mit Rahmen
+      tft.fillRect(FELD_X, FELD_Y, SPALTEN * ZELLE, REIHEN * ZELLE, DUNKEL);
+      tft.drawRect(FELD_X - 2, FELD_Y - 2, SPALTEN * ZELLE + 4, REIHEN * ZELLE + 4, GRAU);
       for (int r = 0; r < REIHEN; r++) {
         for (int c = 0; c < SPALTEN; c++) {
-          if (feld[r * SPALTEN + c]) display.fillRect(FELD_X + c * ZELLE, FELD_Y + r * ZELLE, ZELLE - 1, ZELLE - 1, SSD1306_WHITE);
+          int v = feld[r * SPALTEN + c];
+          if (v) block(FELD_X + c * ZELLE, FELD_Y + r * ZELLE, ZELLE, FARBEN[v]);
         }
       }
       if (!vorbei) {
         for (int i = 0; i < 4; i++) {
           for (int j = 0; j < 4; j++) {
             if (zelle(teil, drehung, i, j) && py + i >= 0) {
-              display.fillRect(FELD_X + (px + j) * ZELLE, FELD_Y + (py + i) * ZELLE, ZELLE - 1, ZELLE - 1, SSD1306_WHITE);
+              block(FELD_X + (px + j) * ZELLE, FELD_Y + (py + i) * ZELLE, ZELLE, FARBEN[teil + 1]);
             }
           }
         }
       }
 
-      // Anzeige links
-      display.setCursor(0, 0);
-      display.print("Punkte");
-      display.setCursor(0, 10);
-      display.print(punkte);
-      display.setCursor(0, 26);
-      display.print("Linien");
-      display.setCursor(0, 36);
-      display.print(linien);
-      display.setCursor(0, 52);
-      display.print("Stufe ");
-      display.print(stufe);
-
-      // Nächstes Teil rechts
-      display.setCursor(90, 0);
-      display.print("Next");
+      // Anzeige rechts
+      int sx = 158;
+      tft.setTextSize(1);
+      tft.setTextColor(GRAU);
+      tft.setCursor(sx, 34);
+      tft.print("NAECHSTER");
+      tft.drawRect(sx, 46, 74, 52, GRAU);
       for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-          if (zelle(naechstes, 0, i, j)) display.fillRect(92 + j * 5, 12 + i * 5, 4, 4, SSD1306_WHITE);
+          if (zelle(naechstes, 0, i, j)) block(sx + 9 + j * 14, 50 + i * 11, 12, FARBEN[naechstes + 1]);
         }
       }
+      zahl(sx, 112, "PUNKTE", punkte);
+      zahl(sx, 150, "LINIEN", linien);
+      zahl(sx, 188, "STUFE", stufe);
+      zahl(sx, 226, "REKORD", rekord);
+
+      tft.setTextSize(1);
+      tft.setTextColor(GRAU);
+      tft.setCursor(sx, 276);
+      tft.print("< > schieben");
+      tft.setCursor(sx, 288);
+      tft.print("O drehen");
+      tft.setCursor(sx, 300);
+      tft.print("v fallen");
 
       if (vorbei) {
-        display.fillRect(84, 38, 44, 26, SSD1306_BLACK);
-        display.setCursor(86, 40);
-        display.print("ENDE");
-        display.setCursor(86, 52);
-        display.print("Taste!");
+        tft.fillRect(FELD_X + 6, 130, SPALTEN * ZELLE - 12, 70, SCHWARZ);
+        tft.drawRect(FELD_X + 6, 130, SPALTEN * ZELLE - 12, 70, GELB);
+        tft.setTextSize(2);
+        tft.setTextColor(GELB);
+        tft.setCursor(FELD_X + 22, 142);
+        tft.print("ENDE");
+        tft.setTextSize(1);
+        tft.setTextColor(WEISS);
+        tft.setCursor(FELD_X + 16, 172);
+        tft.print("Taste = neu");
       }
-      display.display();
+      neuZeichnen = 0;
     }
 
     void setup() {
       Serial.begin(115200);
       for (int k = 0; k < 4; k++) pinMode(pins[k], INPUT_PULLUP);
       pinMode(SUMMER, OUTPUT);
-      if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-        Serial.println("Display nicht gefunden!");
-      }
+      tft.begin();
+      tft.setRotation(0);
       randomSeed(analogRead(36) + micros());
       Serial.println("Blocksturz bereit");
       neuesSpiel();
@@ -258,13 +309,14 @@ code:
           if (neu) neuesSpiel();
           continue;
         }
-        if (k == 0 && passt(teil, drehung, px - 1, py)) px--;
-        if (k == 1 && passt(teil, drehung, px + 1, py)) px++;
+        if (k == 0 && passt(teil, drehung, px - 1, py)) { px--; neuZeichnen = 1; }
+        if (k == 1 && passt(teil, drehung, px + 1, py)) { px++; neuZeichnen = 1; }
         if (k == 2) {
           int r = (drehung + 1) % 4;
           if (passt(teil, r, px, py)) drehung = r;
           else if (passt(teil, r, px - 1, py)) { drehung = r; px--; }
           else if (passt(teil, r, px + 1, py)) { drehung = r; px++; }
+          neuZeichnen = 1;
         }
         if (k == 3) {
           einsRunter();
@@ -278,7 +330,7 @@ code:
         einsRunter();
       }
 
-      zeichnen();
+      if (neuZeichnen) zeichnen();
       delay(15);
     }
 test:

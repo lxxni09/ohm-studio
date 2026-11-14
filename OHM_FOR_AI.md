@@ -99,6 +99,8 @@ Schreibe 1–3 sinnvolle Tests, die zum Code passen (Zeiten großzügig wählen)
 
 Serial, Wire, SPI, WiFi, HTTPClient, BLEDevice (Scan, Werbung), Preferences, EEPROM, LiquidCrystal_I2C, Adafruit_SSD1306 / SH1106G, Adafruit_GFX, Adafruit_ILI9341 / ST7789, LedControl, TM1637Display, Servo / ESP32Servo, Stepper / AccelStepper, Adafruit_NeoPixel, DHT, OneWire + DallasTemperature, Adafruit_BME280 / BMP280, Adafruit_MPU6050, NewPing, MFRC522, Keypad, ESP32-Deep-Sleep (`esp_deep_sleep_start`, Timer- und GPIO-Wecker), `ledc*`, `tone`, `attachInterrupt`, `pulseIn`, `shiftOut`, `millis`, `random`, `map`, `constrain`, `sprintf`, `Serial.printf`.
 
+**Objekte so anlegen:** `Adafruit_ILI9341 tft(5, 2, 4);` – **nicht** `Adafruit_ILI9341 tft = Adafruit_ILI9341(5, 2, 4);`. Farb-Konstanten wie `ILI9341_RED` gibt es in der Simulation nicht – Farben als RGB565-Zahl (`0xF800`) oder per `tft.color565(r, g, b)`. Auf TFTs (`ili9341`, `st7789`) pro Bild höchstens ~500 Zeichenbefehle und vor jedem neuen Bild `fillScreen(…)` aufrufen; nur neu zeichnen, wenn sich etwas geändert hat.
+
 **Nicht verwenden:** eigene `struct`/`class`-Definitionen, Zeiger-Arithmetik, Referenzparameter (`int &x`), Templates, `String`-Akrobatik mit Zeigern. Nutze globale Variablen, Arrays und einfache Funktionen. `delay()` ist erlaubt.
 
 ## Vollständiges Beispiel
