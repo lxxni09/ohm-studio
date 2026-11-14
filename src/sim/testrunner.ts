@@ -45,11 +45,14 @@ export function runTests(project: Project, tests: TestStep[] = project.tests): T
   };
   run(0.3);
   const results: TestResult[] = [];
+  let first = true;
   for (const t of tests) {
     const releases: (() => void)[] = [];
     let understood = true;
     const actions = t.schritt.split(/,|\bund\b|;/).map((s) => s.trim()).filter(Boolean);
-    serial = '';
+    // Ausgaben aus setup() zählen für den ersten Schritt mit; danach nur, was im jeweiligen Schritt neu kommt
+    if (!first) serial = '';
+    first = false;
     for (const a of actions) {
       let m: RegExpExecArray | null;
       if ((m = /^(\w+)\.(\w+)\s*=\s*(.+)$/.exec(a))) {
