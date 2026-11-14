@@ -1,0 +1,290 @@
+ohm: 1
+projekt:
+  name: Blocksturz
+  autor: Nodaris
+  beschreibung: Fallende-Blöcke-Spiel auf einem OLED – Reihen füllen, Punkte sammeln, mit jeder Stufe wird es schneller.
+teile:
+  U1:   { typ: esp32-devkit }
+  DISP: { typ: ssd1306 }
+  SW1:  { typ: taster, farbe: blau, label: Links }
+  SW2:  { typ: taster, farbe: blau, label: Rechts }
+  SW3:  { typ: taster, farbe: gruen, label: Drehen }
+  SW4:  { typ: taster, farbe: rot, label: Fallen }
+  BZ1:  { typ: summer, art: passiv, spannung: 3V }
+netze:
+  3V3:   [U1.3V3, DISP.VCC]
+  SDA:   [U1.IO21, DISP.SDA]
+  SCL:   [U1.IO22, DISP.SCL]
+  LINKS: [U1.IO27, SW1.1]
+  RECHTS: [U1.IO26, SW2.1]
+  DREHEN: [U1.IO25, SW3.1]
+  FALLEN: [U1.IO33, SW4.1]
+  TON:   [U1.IO14, BZ1.+]
+  GND:   [U1.GND, DISP.GND, SW1.2, SW2.2, SW3.2, SW4.2, BZ1.-]
+code:
+  ziel: U1
+  sprache: arduino
+  datei: |
+    #include <Wire.h>
+    #include <Adafruit_GFX.h>
+    #include <Adafruit_SSD1306.h>
+
+    // Blocksturz – fallende Blöcke auf einem 128x64-OLED
+    // Links/Rechts: schieben, Drehen: drehen, Fallen: schneller fallen (gedrückt halten)
+
+    #define SUMMER 14
+    Adafruit_SSD1306 display(128, 64, &Wire, -1);
+
+    const int SPALTEN = 10;
+    const int REIHEN = 20;
+    const int ZELLE = 3;
+    const int FELD_X = 49;
+    const int FELD_Y = 2;
+
+    int feld[200];
+
+    // 7 Formen mit je 4 Drehungen als 4x4-Bitmaske (Bit 15 = oben links)
+    const unsigned int FORMEN[28] = {
+      0x0F00, 0x2222, 0x00F0, 0x4444,
+      0x6600, 0x6600, 0x6600, 0x6600,
+      0x0E40, 0x4C40, 0x4E00, 0x4640,
+      0x06C0, 0x8C40, 0x6C00, 0x4620,
+      0x0C60, 0x4C80, 0xC600, 0x2640,
+      0x44C0, 0x8E00, 0x6440, 0x0E20,
+      0x4460, 0x0E80, 0xC440, 0x2E00
+    };
+
+    int pins[4] = {27, 26, 25, 33};
+    int warGedrueckt[4] = {0, 0, 0, 0};
+    unsigned long naechsteWiederholung[4] = {0, 0, 0, 0};
+
+    int teil = 0;
+    int drehung = 0;
+    int px = 3;
+    int py = -1;
+    int naechstes = 0;
+    long punkte = 0;
+    int linien = 0;
+    int stufe = 1;
+    int vorbei = 0;
+    unsigned long fallZeit = 700;
+    unsigned long letzterFall = 0;
+
+    int zelle(int f, int r, int i, int j) {
+      return (FORMEN[f * 4 + r] >> (15 - (i * 4 + j))) & 1;
+    }
+
+    int passt(int f, int r, int x, int y) {
+      for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+          if (zelle(f, r, i, j)) {
+            int fx = x + j;
+            int fy = y + i;
+            if (fx < 0 || fx >= SPALTEN || fy >= REIHEN) return 0;
+            if (fy >= 0 && feld[fy * SPALTEN + fx]) return 0;
+          }
+        }
+      }
+      return 1;
+    }
+
+    void neuesSpiel() {
+      for (int k = 0; k < 200; k++) feld[k] = 0;
+      punkte = 0;
+      linien = 0;
+      stufe = 1;
+      fallZeit = 700;
+      vorbei = 0;
+      naechstes = random(7);
+      neuesTeil();
+      Serial.println("Neues Spiel");
+    }
+
+    void neuesTeil() {
+      teil = naechstes;
+      naechstes = random(7);
+      drehung = 0;
+      px = 3;
+      py = -1;
+      if (!passt(teil, drehung, px, py)) {
+        vorbei = 1;
+        Serial.print("Spiel vorbei – Punkte: ");
+        Serial.println(punkte);
+        tone(SUMMER, 330, 150); delay(170);
+        tone(SUMMER, 262, 150); delay(170);
+        tone(SUMMER, 196, 400);
+      }
+    }
+
+    void reihenLoeschen() {
+      int geloescht = 0;
+      for (int r = REIHEN - 1; r >= 0; r--) {
+        int voll = 1;
+        for (int c = 0; c < SPALTEN; c++) {
+          if (!feld[r * SPALTEN + c]) voll = 0;
+        }
+        if (voll) {
+          for (int rr = r; rr > 0; rr--) {
+            for (int c = 0; c < SPALTEN; c++) feld[rr * SPALTEN + c] = feld[(rr - 1) * SPALTEN + c];
+          }
+          for (int c = 0; c < SPALTEN; c++) feld[c] = 0;
+          geloescht++;
+          r++;
+        }
+      }
+      if (geloescht > 0) {
+        int wert = 100;
+        if (geloescht == 2) wert = 300;
+        if (geloescht == 3) wert = 500;
+        if (geloescht >= 4) wert = 800;
+        punkte += wert * stufe;
+        linien += geloescht;
+        stufe = 1 + linien / 10;
+        fallZeit = 700 - (stufe - 1) * 60;
+        if (fallZeit < 120) fallZeit = 120;
+        tone(SUMMER, 880, 80);
+        Serial.print("Reihen: ");
+        Serial.print(geloescht);
+        Serial.print("  Punkte: ");
+        Serial.println(punkte);
+      }
+    }
+
+    void festsetzen() {
+      for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+          if (zelle(teil, drehung, i, j)) {
+            int fy = py + i;
+            if (fy >= 0) feld[fy * SPALTEN + px + j] = 1;
+          }
+        }
+      }
+      tone(SUMMER, 220, 30);
+      reihenLoeschen();
+      neuesTeil();
+    }
+
+    void einsRunter() {
+      if (passt(teil, drehung, px, py + 1)) {
+        py++;
+      } else {
+        festsetzen();
+      }
+    }
+
+    void zeichnen() {
+      display.clearDisplay();
+      display.setTextColor(SSD1306_WHITE);
+      display.setTextSize(1);
+
+      // Spielfeld
+      display.drawRect(FELD_X - 2, FELD_Y - 2, SPALTEN * ZELLE + 4, REIHEN * ZELLE + 3, SSD1306_WHITE);
+      for (int r = 0; r < REIHEN; r++) {
+        for (int c = 0; c < SPALTEN; c++) {
+          if (feld[r * SPALTEN + c]) display.fillRect(FELD_X + c * ZELLE, FELD_Y + r * ZELLE, ZELLE - 1, ZELLE - 1, SSD1306_WHITE);
+        }
+      }
+      if (!vorbei) {
+        for (int i = 0; i < 4; i++) {
+          for (int j = 0; j < 4; j++) {
+            if (zelle(teil, drehung, i, j) && py + i >= 0) {
+              display.fillRect(FELD_X + (px + j) * ZELLE, FELD_Y + (py + i) * ZELLE, ZELLE - 1, ZELLE - 1, SSD1306_WHITE);
+            }
+          }
+        }
+      }
+
+      // Anzeige links
+      display.setCursor(0, 0);
+      display.print("Punkte");
+      display.setCursor(0, 10);
+      display.print(punkte);
+      display.setCursor(0, 26);
+      display.print("Linien");
+      display.setCursor(0, 36);
+      display.print(linien);
+      display.setCursor(0, 52);
+      display.print("Stufe ");
+      display.print(stufe);
+
+      // Nächstes Teil rechts
+      display.setCursor(90, 0);
+      display.print("Next");
+      for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+          if (zelle(naechstes, 0, i, j)) display.fillRect(92 + j * 5, 12 + i * 5, 4, 4, SSD1306_WHITE);
+        }
+      }
+
+      if (vorbei) {
+        display.fillRect(84, 38, 44, 26, SSD1306_BLACK);
+        display.setCursor(86, 40);
+        display.print("ENDE");
+        display.setCursor(86, 52);
+        display.print("Taste!");
+      }
+      display.display();
+    }
+
+    void setup() {
+      Serial.begin(115200);
+      for (int k = 0; k < 4; k++) pinMode(pins[k], INPUT_PULLUP);
+      pinMode(SUMMER, OUTPUT);
+      if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+        Serial.println("Display nicht gefunden!");
+      }
+      randomSeed(analogRead(36) + micros());
+      Serial.println("Blocksturz bereit");
+      neuesSpiel();
+      tone(SUMMER, 523, 80); delay(100);
+      tone(SUMMER, 659, 80); delay(100);
+      tone(SUMMER, 784, 120);
+      letzterFall = millis();
+    }
+
+    void loop() {
+      unsigned long jetzt = millis();
+
+      for (int k = 0; k < 4; k++) {
+        int gedrueckt = digitalRead(pins[k]) == LOW;
+        int neu = gedrueckt && !warGedrueckt[k];
+        int wiederholt = gedrueckt && warGedrueckt[k] && jetzt >= naechsteWiederholung[k] && k != 2;
+        if (neu) naechsteWiederholung[k] = jetzt + 220;
+        if (wiederholt) naechsteWiederholung[k] = jetzt + 70;
+        warGedrueckt[k] = gedrueckt;
+        if (!(neu || wiederholt)) continue;
+
+        if (vorbei) {
+          if (neu) neuesSpiel();
+          continue;
+        }
+        if (k == 0 && passt(teil, drehung, px - 1, py)) px--;
+        if (k == 1 && passt(teil, drehung, px + 1, py)) px++;
+        if (k == 2) {
+          int r = (drehung + 1) % 4;
+          if (passt(teil, r, px, py)) drehung = r;
+          else if (passt(teil, r, px - 1, py)) { drehung = r; px--; }
+          else if (passt(teil, r, px + 1, py)) { drehung = r; px++; }
+        }
+        if (k == 3) {
+          einsRunter();
+          punkte += 1;
+          letzterFall = jetzt;
+        }
+      }
+
+      if (!vorbei && jetzt - letzterFall >= fallZeit) {
+        letzterFall = jetzt;
+        einsRunter();
+      }
+
+      zeichnen();
+      delay(15);
+    }
+test:
+  - schritt: Simulation starten
+    erwartet: Serial zeigt "Blocksturz bereit"
+  - schritt: SW4 gedrückt halten
+    erwartet: BZ1 piept innerhalb von 4s
+  - schritt: SW4 gedrückt halten
+    erwartet: Serial zeigt "Spiel vorbei" innerhalb von 40s

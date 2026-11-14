@@ -91,9 +91,9 @@ Jeder Eintrag hat `schritt` (was passiert) und `erwartet` (was man sehen soll). 
 | aus | `D1 ist aus` · `D1 bleibt aus` |
 | Ton | `BZ1 piept innerhalb von 3s` |
 | Serieller Monitor | `Serial zeigt "Bereit"` |
-| Display | `DISP zeigt "Hallo"` |
+| Text-Display (nur LCD wie `lcd1602`/`lcd2004`, **nicht** OLED/TFT) | `LCD1 zeigt "Hallo"` |
 
-Schreibe 1–3 sinnvolle Tests, die zum Code passen (Zeiten großzügig wählen).
+Schreibe 1–3 sinnvolle Tests, die zum Code passen (Zeiten großzügig wählen). Was auf einem OLED/TFT erscheint, lässt sich nicht automatisch prüfen – dafür eine passende Zeile mit `Serial.println(…)` ausgeben und `Serial zeigt "…"` testen.
 
 ## Unterstützte Arduino-Bibliotheken in der Simulation
 
